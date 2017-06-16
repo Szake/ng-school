@@ -1,0 +1,29 @@
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+
+<a routerLink="/student/new">Create student</a>
+
+<div class="content-text" [@contentIn]="'in'">
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Birthday</th>
+      <th>Class</th>
+      <th>Controls</th>
+    </tr>
+    <tr *ngFor="let student of list; let i = index">
+      <td>{{i + 1}}</td>
+      <td>{{student.firstName}}</td>
+      <td>{{student.lastName}}</td>
+      <td>{{student.birthday | date : 'longDate'}}</td>
+      <td>
+        <a (click)="goToClass(groups[student._id])">{{groups[student._id] && groups[student._id]['name']}}</a>
+      </td>
+      <td>
+        <a (click)="goToStudent(student)">Details</a>,
+        <a (click)="deleteStudent(student)">Delete</a>
+      </td>
+    </tr>
+  </table>
+</div>

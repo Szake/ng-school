@@ -1,0 +1,34 @@
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+
+<div class="content-breadcrumbs" [@breadcrumbsIn]="'in'">
+  <ul class="breadcrumbs">
+    <li class="breadcrumbs-item">
+      <a class="breadcrumbs-link" routerLink="/dashboard">Dashboard</a>
+    </li>
+    <li class="breadcrumbs-item">
+      <a class="breadcrumbs-link" routerLink="/students">Students</a>
+    </li>
+    <li class="breadcrumbs-item" *ngIf="student">{{student.firstName}} {{student.lastName}}</li>
+    <li class="breadcrumbs-item" *ngIf="!student">Student</li>
+  </ul>
+</div>
+
+<div class="content-text" [@contentIn]="'in'">
+  <dl class="details">
+    <dt>First name:</dt>
+    <dd>{{student.firstName}}</dd>
+    <dt>Last name:</dt>
+    <dd>{{student.lastName}}</dd>
+    <dt>Middle name:</dt>
+    <dd>{{student.middleName}}</dd>
+    <dt>Birthday:</dt>
+    <dd>{{student.birthday | date : 'longDate'}}</dd>
+    <dt>Class:</dt>
+    <dd *ngIf="group"><a class="link" (click)="goToClass()">{{group.name}}</a></dd>
+    <dd *ngIf="!group">No class</dd>
+  </dl>
+
+  <hr>
+
+  <p>{{student.other}}</p>
+</div>

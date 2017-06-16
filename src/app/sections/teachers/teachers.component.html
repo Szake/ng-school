@@ -1,0 +1,27 @@
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+
+<div class="content-text" [@contentIn]="'in'">
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Birthday</th>
+      <th>Class</th>
+      <th>Controls</th>
+    </tr>
+    <tr *ngFor="let teacher of list; let i = index">
+      <td>{{i + 1}}</td>
+      <td>{{teacher.firstName}}</td>
+      <td>{{teacher.lastName}}</td>
+      <td>{{teacher.birthday | date : 'longDate'}}</td>
+      <td>
+        <a (click)="goToClass(groups[teacher._id])">{{groups[teacher._id] && groups[teacher._id]['name']}}</a>
+      </td>
+      <td>
+        <a (click)="goToTeacher(teacher)">Details</a>,
+        <a (click)="deleteTeacher(teacher)">Delete</a>
+      </td>
+    </tr>
+  </table>
+</div>

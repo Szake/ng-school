@@ -1,0 +1,31 @@
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+
+<div class="content-text" [@contentIn]="'in'">
+
+  <!-- Slider -->
+  <app-slider [type]="'move'" [data]="slides"></app-slider>
+  <!-- End Slider -->
+
+  <hr>
+
+  <ul class="dashboard-list">
+    <li class="dashboard-item">
+      <a class="dashboard-link" routerLink="/classes">
+        <h3 class="dashboard-title">Classes</h3>
+        <p class="dashboard-descr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque excepturi officiis quia sapiente.</p>
+      </a>
+    </li>
+    <li class="dashboard-item">
+      <a class="dashboard-link" routerLink="/teachers">
+        <h3 class="dashboard-title">Teachers</h3>
+        <p class="dashboard-descr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque excepturi officiis quia sapiente.</p>
+      </a>
+    </li>
+    <li class="dashboard-item">
+      <a class="dashboard-link" routerLink="/students">
+        <h3 class="dashboard-title">Students</h3>
+        <p class="dashboard-descr">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque excepturi officiis quia sapiente.</p>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,110 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-list {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+}
+.slider-list-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 10px 0 0;
+  box-sizing: border-box;
+  padding: 40px;
+  background: #e6e6e6;
+}
+.slider-list-title {
+  margin: 0 0 20px;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1.2;
+  color: #000;
+}
+.slider-list-descr {
+  font-size: 18px;
+  color: #888;
+}
+
+.slider-ctrl {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 60px;
+  background: rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease 0s;
+  cursor: pointer;
+}
+.slider:hover .slider-ctrl {
+  opacity: 1;
+}
+.slider-ctrl:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  transform: translate(-50%, -50%);
+}
+.slider-ctrl.ctrl-prev {
+  left: 0;
+}
+.slider-ctrl.ctrl-prev:before {
+  border-right: 10px solid #000;
+}
+.slider-ctrl.ctrl-next {
+  right: 0;
+}
+.slider-ctrl.ctrl-next:before {
+  border-left: 10px solid #000;
+}
+
+.slider-thumbs {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(-50%);
+}
+.slider-thumbs-item {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 2px;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #ccc;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.slider-thumbs-item:hover {
+  background: #888;
+}
+.slider-thumbs-item.active {
+  background: #000;
+}
+
+
+.slider-list-item:nth-child(5n + 1) { background: #aaa; }
+.slider-list-item:nth-child(5n + 2) { background: #bbb; }
+.slider-list-item:nth-child(5n + 3) { background: #ccc; }
+.slider-list-item:nth-child(5n + 4) { background: #ddd; }
+.slider-list-item:nth-child(5n + 5) { background: #eee; }

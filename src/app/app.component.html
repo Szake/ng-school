@@ -1,3 +1,51 @@
-<h1>
-  {{title}}
-</h1>
+<!-- Layout -->
+<div class="layout">
+  <div class="layout-inner">
+
+    <!-- Header -->
+    <header class="layout-header header" role="banner" [@headerIn]="'in'">
+      <div class="header-inner">
+        <h1 class="header-logo">{{title}}</h1>
+
+        <app-header-navigation class="header-navigation"></app-header-navigation>
+
+        <app-header-account class="header-account"></app-header-account>
+      </div>
+    </header>
+    <!-- End Header -->
+
+
+    <!-- Main -->
+    <main class="layout-content content" role="main">
+      <div class="content-inner">
+
+        <router-outlet></router-outlet>
+
+      </div>
+    </main>
+    <!-- End Main -->
+
+
+    <!-- Footer -->
+    <footer class="layout-footer footer" role="contentinfo" *ngIf="controls" [@footerIn]="controls ? 'in' : 'out'">
+      <div class="footer-inner">
+
+        <app-footer-controls class="footer-controls"></app-footer-controls>
+
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+  </div>
+</div>
+<!-- End Layout -->
+
+<!-- Loading -->
+<div class="loader" [class.visible]="loading">
+  <span class="loader-icon">
+    <span class="loader-icon-unit"></span>
+    <span class="loader-icon-unit"></span>
+    <span class="loader-icon-unit"></span>
+  </span>
+</div>
+<!-- End Loading -->

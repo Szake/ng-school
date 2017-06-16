@@ -1,0 +1,39 @@
+.controls {
+  font-size: 12px;
+}
+.controls-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.controls-item {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  vertical-align: middle;
+}
+.controls-item.item-back {
+  padding-right: 20px;
+  border-right: 1px solid #e6e6e6;
+  color: #ff4040;
+}
+.controls-link {
+  display: block;
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.controls-item.item-back .controls-link {
+  position: relative;
+  padding-left: 10px;
+}
+.controls-item.item-back .controls-link:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  margin: -4px 0 0;
+  border-top: 4px solid transparent;
+  border-right: 4px solid #ff4040;
+  border-bottom: 4px solid transparent;
+}

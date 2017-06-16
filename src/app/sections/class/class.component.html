@@ -1,0 +1,37 @@
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+
+<div class="content-breadcrumbs" [@breadcrumbsIn]="'in'">
+  <ul class="breadcrumbs">
+    <li class="breadcrumbs-item">
+      <a class="breadcrumbs-link" routerLink="/dashboard">Dashboard</a>
+    </li>
+    <li class="breadcrumbs-item">
+      <a class="breadcrumbs-link" routerLink="/classes">Classes</a>
+    </li>
+    <li class="breadcrumbs-item" *ngIf="group">{{group.name}}</li>
+    <li class="breadcrumbs-item" *ngIf="!group">Class</li>
+  </ul>
+</div>
+
+<div class="content-text" [@contentIn]="'in'">
+  <dl class="details">
+    <dt>Title:</dt>
+    <dd>{{group.name}}</dd>
+    <dt>Level:</dt>
+    <dd>{{group.level}}</dd>
+    <dt>Teacher:</dt>
+    <dd *ngIf="teacher"><a class="link" (click)="goToTeacher()">{{teacher.firstName}} {{teacher.lastName}}</a></dd>
+    <dd *ngIf="!teacher">No teacher</dd>
+    <dt>Students ({{students && students.length || 0}}):</dt>
+    <dd *ngIf="students">
+      <span *ngFor="let student of students; let l = last;">
+        <a class="link" (click)="goToStudent(student)">{{student.firstName}} {{student.lastName}}</a><span *ngIf="!l">, </span>
+      </span>
+    </dd>
+    <dd *ngIf="!students">No students</dd>
+  </dl>
+
+  <hr>
+
+  <p>{{group.other}}</p>
+</div>

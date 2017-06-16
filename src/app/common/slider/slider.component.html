@@ -1,0 +1,21 @@
+<div class="slider">
+  <ul class="slider-list">
+    <li class="slider-list-item"
+        *ngFor="let slide of slides"
+        [ngClass]="{'active': slide === active_slide}"
+        [@slideState]="slide === active_slide ? (animation + '-in-' + direction) : (animation + '-out-' + direction)">
+      <h3 class="slider-list-title">{{slide.title}}</h3>
+      <p class="slider-list-descr">{{slide.descr}}</p>
+    </li>
+  </ul>
+
+  <ul class="slider-thumbs">
+    <li class="slider-thumbs-item"
+        *ngFor="let slide of slides; let i = index;"
+        [ngClass]="{'active': slide === active_slide}"
+        (click)="toSlide(slide, i)"></li>
+  </ul>
+
+  <div class="slider-ctrl ctrl-prev" (click)="toPrev()"></div>
+  <div class="slider-ctrl ctrl-next" (click)="toNext()"></div>
+</div>
