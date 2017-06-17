@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ClassService } from '../../services/class.service';
+import { Class } from '../../models/class';
 
 @Component({
   selector: 'app-header-navigation',
@@ -6,6 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: [ './navigation.component.css' ]
 })
 
-export class HeaderNavigationComponent {
+export class HeaderNavigationComponent implements OnInit {
+  classes = 0;
 
+  constructor(
+    private classService: ClassService
+  ) {}
+
+  ngOnInit() {
+    this.classService.getClasses().subscribe(list => {
+      console.log('asdasda');
+      this.classes = list.length;
+    });
+  }
 }

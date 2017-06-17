@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
 
 // Model:
+import { Class } from '../models/class';
 import { Teacher } from '../models/teacher';
 
 
@@ -16,7 +17,9 @@ export class TeacherService {
   private _data: Teacher[] = [];
 
 
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http
+  ) {}
 
 
   // Handlers (success/error):
@@ -44,18 +47,27 @@ export class TeacherService {
   // All in the JSON:
   getAll(): Promise<Teacher[]> {
     if (this._data && this._data.length) {
-      console.log('---> saved _data: ', this._data);
+      // console.log('---> saved _data: ', this._data);
       return Promise.resolve(this._data);
     }
     else {
       return new Promise(resolve => {
         this.getData().then(data => {
           this._data = data;
-          console.log('---> new loaded _data: ', this._data);
+          // console.log('---> new loaded _data: ', this._data);
           resolve(data);
         });
       });
     }
+  }
+
+  // Length:
+  getLast(): Promise<number> {
+    return new Promise(resolve => {
+      this.getAll().then(data => {
+        resolve(data[data.length - 1]['_id']);
+      });
+    });
   }
 
   // One by ID:
@@ -67,7 +79,7 @@ export class TeacherService {
           return item._id === id;
         })[0];
 
-        console.log('---> requested teacher: ', result);
+        // console.log('---> requested teacher: ', result);
         resolve(result);
       });
     });
@@ -78,30 +90,68 @@ export class TeacherService {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      if (!new_item) {
-        resolve(false);
-      }
-      else {
-        this._data.push(new_item);
+      this.getAll().then(list => {
+        list.push(new_item);
+        list.forEach(item => {
+          if (item.classId === new_item.classId && item !== new_item) {
+            this.resetClass(item._id).then(result => {
+              result && resolve(true);
+              resolve(false);
+            });
+          }
+        });
         resolve(true);
-      }
+      });
     });
   }
 
   // Remove from the list:
   removeOne(del_item: Teacher): Promise<Boolean> {
     return new Promise(resolve => {
-      const index = this._data.indexOf(del_item);
-      // send request to the server...
-      // or remove locally:
-      if (!del_item || index === -1) {
-        console.error('Can not delete item.');
+      this.getAll().then(list => {
+        const index = list.indexOf(del_item);
+        // send request to the server...
+        // or remove locally:
+        if (!del_item || index === -1) {
+          console.error('Can not delete item.');
+          resolve(false);
+        }
+        else {
+          list.splice(index, 1);
+          resolve(true);
+        }
+      });
+    });
+  }
+
+
+  /* Classes: */
+  resetClass(id): Promise<Boolean> {
+    return new Promise(resolve => {
+      this.getAll().then(list => {
+        list.forEach(teacher => {
+          if (teacher._id === id) {
+            teacher.classId = null;
+            resolve(true);
+          }
+        });
         resolve(false);
-      }
-      else {
-        this._data.splice(index, 1);
-        resolve(true);
-      }
+      });
+    });
+  }
+
+  // Update teacher with new teacher (1 teacher - 1 class):
+  addClass(new_class: Class): Promise<Boolean> {
+    return new Promise(resolve => {
+      this.getAll().then(list => {
+        list.forEach(teacher => {
+          if (teacher._id === new_class.teacherId) {
+            teacher.classId = new_class._id;
+            resolve(true);
+          }
+        });
+        resolve(false);
+      });
     });
   }
 }

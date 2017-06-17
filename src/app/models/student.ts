@@ -1,9 +1,9 @@
 export interface Student {
-  _id: any;
+  _id: number;
   firstName: string;
   lastName: string;
   middleName: string;
   birthday: Date;
-  classId: any;
+  classId: number;
   other: string;
 }

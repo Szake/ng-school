@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ClassService } from '../../services/class.service';
 import { StudentService } from '../../services/student.service';
 import { StudentEntity } from '../../models/student-constructor';
 import { Class } from '../../models/class';
 
+import { titleIn, contentIn } from '../../animations/content';
+
 
 @Component({
   templateUrl: './student-add.component.html',
-  styleUrls: [ './student.component.css' ]
+  styleUrls: [ './student.component.css' ],
+  animations: [ titleIn, contentIn ]
 })
 
 export class StudentAddComponent implements OnInit {
@@ -16,6 +20,7 @@ export class StudentAddComponent implements OnInit {
   groups: Class[];
 
   constructor(
+    private router: Router,
     private classService: ClassService,
     private studentService: StudentService
   ) {}
@@ -37,8 +42,13 @@ export class StudentAddComponent implements OnInit {
   // String result:
   get diagnostic() { return JSON.stringify(this.student); }
 
-  // Push new student to the store:
+  // Push the new student to the store:
   addStudent() {
-    this.studentService.addOne(this.student);
+    const new_student = {...this.student};
+    this.studentService.addOne(new_student).then(result => {
+      this.classService.addStudent(new_student).then(result => {
+        this.router.navigate(['/students']);
+      });
+    });
   }
 }

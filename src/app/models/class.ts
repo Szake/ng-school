@@ -1,8 +1,8 @@
 export interface Class {
-  _id: any;
+  _id: number;
   name: string;
   level: number;
-  teacherId: any;
-  studentId: any[];
+  teacherId: number;
+  studentId: number[];
   other: string;
 }

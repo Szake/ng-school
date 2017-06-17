@@ -5,13 +5,13 @@ import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
 import { Teacher } from '../../models/teacher';
 
-import { titleIn, contentIn } from '../../animations/content';
+import { titleIn, controlsIn, contentIn } from '../../animations/content';
 
 
 @Component({
   templateUrl: 'teachers.component.html',
   styleUrls: [ './teachers.component.css' ],
-  animations: [ titleIn, contentIn ]
+  animations: [ titleIn, controlsIn, contentIn ]
 })
 
 export class TeachersComponent implements OnInit {

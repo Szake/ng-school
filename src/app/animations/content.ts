@@ -24,6 +24,17 @@ export const titleIn = trigger('titleIn', [
   transition('void => in', animate('200ms 300ms ease-out'))
 ]);
 
+// Controls:
+export const controlsIn = trigger('controlsIn', [
+  state('in', style({
+    transform: 'scale(1)'
+  })),
+  state('void', style({
+    transform: 'scale(0)'
+  })),
+  transition('void => in', animate('200ms 500ms ease-out'))
+]);
+
 // Breadcrumbs:
 export const breadcrumbsIn = trigger('breadcrumbsIn', [
   state('in', style({

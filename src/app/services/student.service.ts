@@ -16,7 +16,9 @@ export class StudentService {
   private _data: Student[] = [];
 
 
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http
+  ) {}
 
 
   // Handlers (success/error):
@@ -66,7 +68,7 @@ export class StudentService {
           return ids.indexOf(item._id) !== -1;
         });
 
-        console.log('---> requested array of students: ', result);
+        // console.log('---> requested array of students: ', result);
         resolve(result);
       });
     });
@@ -90,7 +92,7 @@ export class StudentService {
           return item._id === id;
         })[0];
 
-        console.log('---> requested student: ', result);
+        // console.log('---> requested student: ', result);
         resolve(result);
       });
     });
@@ -101,30 +103,29 @@ export class StudentService {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      if (!new_item) {
-        resolve(false);
-      }
-      else {
-        this._data.push(new_item);
+      this.getAll().then(list => {
+        list.push(new_item);
         resolve(true);
-      }
+      });
     });
   }
 
   // Remove from the list:
   removeOne(del_item: Student): Promise<Boolean> {
     return new Promise(resolve => {
-      const index = this._data.indexOf(del_item);
-      // send request to the server...
-      // or remove locally:
-      if (!del_item || index === -1) {
-        console.error('Can not delete item.');
-        resolve(false);
-      }
-      else {
-        this._data.splice(index, 1);
-        resolve(true);
-      }
+      this.getAll().then(list => {
+        const index = list.indexOf(del_item);
+        // send request to the server...
+        // or remove locally:
+        if (!del_item || index === -1) {
+          console.error('Can not delete item.');
+          resolve(false);
+        }
+        else {
+          list.splice(index, 1);
+          resolve(true);
+        }
+      });
     });
   }
 }

@@ -1,6 +1,8 @@
 <h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
 
-<a routerLink="/student/new">Create student</a>
+<div class="content-controls" [@controlsIn]="'in'">
+  <a class="control-add" routerLink="/student/new" title="Create student">+</a>
+</div>
 
 <div class="content-text" [@contentIn]="'in'">
   <table class="table">

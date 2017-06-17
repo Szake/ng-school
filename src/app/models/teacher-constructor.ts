@@ -1,4 +1,4 @@
-export class StudentEntity {
+export class TeacherEntity {
   constructor(
     public _id: number,
     public firstName: string,
