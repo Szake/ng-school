@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
+import { Class } from '../../models/class';
 import { Teacher } from '../../models/teacher';
 
 import { titleIn, controlsIn, contentIn } from '../../animations/content';
@@ -19,7 +20,7 @@ export class TeachersComponent implements OnInit {
 
   title = 'Teachers';
   list: Teacher[];
-  groups = [];
+  groups = {};
 
   constructor(
     private router: Router,
@@ -28,13 +29,15 @@ export class TeachersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.teacherService.getAll().then((classes) => {
-      this._data = this.list = classes;
+    this.teacherService.getAll().subscribe((teachers) => {
+      this._data = this.list = teachers;
+      console.log(teachers);
 
       this.list.forEach((teacher) => {
         if (teacher.classId !== null) {
           this.classService.getOne(teacher.classId).then((group) => {
             this.groups[teacher._id] = group;
+            console.log(group);
           });
         }
       });
@@ -51,6 +54,9 @@ export class TeachersComponent implements OnInit {
   deleteTeacher(teacher): void {
     this.teacherService.removeOne(teacher).then((result) => {
       console.log('Delete teacher:', result);
+      this.classService.resetTeacher(teacher._id).then(result => {
+        console.log('Delete teacher from class:', result);
+      });
     });
   }
 }

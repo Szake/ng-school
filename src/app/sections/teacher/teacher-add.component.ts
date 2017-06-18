@@ -31,7 +31,7 @@ export class TeacherAddComponent implements OnInit {
         this.teacher._id = ++data;
       }
     });
-    this.classService.getAll().then(data => {
+    this.classService.getAll().subscribe(data => {
       this.groups = data;
       if (this.teacher.classId === null && data[0]) {
         this.teacher.classId = data[0]['_id'];

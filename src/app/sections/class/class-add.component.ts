@@ -36,7 +36,7 @@ export class ClassAddComponent implements OnInit {
         this.group._id = ++data;
       }
     });
-    this.teacherService.getAll().then(data => {
+    this.teacherService.getAll().subscribe(data => {
       this.teachers = data;
       if (this.group.teacherId === null && data[0]) {
         this.group.teacherId = data[0]['_id'];

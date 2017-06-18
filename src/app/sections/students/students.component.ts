@@ -28,8 +28,9 @@ export class StudentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.studentService.getAll().then((students) => {
+    this.studentService.getAll().subscribe((students) => {
       this._data = this.list = students;
+      console.log(students);
 
       this.list.forEach((student) => {
         if (student.classId !== null) {
@@ -51,6 +52,9 @@ export class StudentsComponent implements OnInit {
   deleteStudent(student): void {
     this.studentService.removeOne(student).then((result) => {
       console.log('Delete student:', result);
+      this.classService.resetStudent(student._id).then(result => {
+        console.log('Delete student from class:', result);
+      });
     });
   }
 }

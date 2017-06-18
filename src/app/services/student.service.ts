@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-// import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/toPromise';
-// import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 
 // Model:
@@ -13,12 +15,17 @@ import { Student } from '../models/student';
 @Injectable()
 export class StudentService {
   private _url = '../json/students.json';
-  private _data: Student[] = [];
+  private _studentsList: BehaviorSubject<Student[]> = new BehaviorSubject([]);
 
 
   constructor(
     private http: Http
-  ) {}
+  ) {
+    this.loadData().subscribe(list => {
+      // console.log('---> load all students:', list.length);
+      this._studentsList.next(list);
+    });
+  }
 
 
   // Handlers (success/error):
@@ -39,31 +46,19 @@ export class StudentService {
 
 
   // Request through HTTP:
-  getData(): Promise<Student[]> {
-    return this.http.get(this._url).toPromise().then(this.extractData).catch(this.handleError);
+  loadData(): Observable<Student[]> {
+    return this.http.get(this._url).map(this.extractData).catch(this.handleError);
   }
 
   // All in the JSON:
-  getAll(): Promise<Student[]> {
-    if (this._data && this._data.length) {
-      // console.log('---> saved _data: ', this._data);
-      return Promise.resolve(this._data);
-    }
-    else {
-      return new Promise(resolve => {
-        this.getData().then(data => {
-          this._data = data;
-          // console.log('---> new loaded _data: ', this._data);
-          resolve(data);
-        });
-      });
-    }
+  getAll(): Observable<Student[]> {
+    return this._studentsList.asObservable();
   }
 
   // Group in the JSON:
   getRange(ids): Promise<Student[]> {
     return new Promise(resolve => {
-      this.getAll().then(list => {
+      this.getAll().subscribe(list => {
         const result = list.filter(item => {
           return ids.indexOf(item._id) !== -1;
         });
@@ -77,7 +72,7 @@ export class StudentService {
   // Length:
   getLast(): Promise<number> {
     return new Promise(resolve => {
-      this.getAll().then(data => {
+      this.getAll().subscribe(data => {
         resolve(data[data.length - 1]['_id']);
       });
     });
@@ -86,7 +81,7 @@ export class StudentService {
   // One by ID:
   getOne(id): Promise<Student> {
     return new Promise(resolve => {
-      this.getAll().then(list => {
+      this.getAll().subscribe(list => {
 
         const result = list.filter(item => {
           return item._id === id;
@@ -103,28 +98,44 @@ export class StudentService {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      this.getAll().then(list => {
-        list.push(new_item);
-        resolve(true);
-      });
+      const list = this._studentsList.getValue();
+      list.push(new_item);
+      this._studentsList.next(list);
+      resolve(true);
     });
   }
 
   // Remove from the list:
   removeOne(del_item: Student): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().then(list => {
-        const index = list.indexOf(del_item);
-        // send request to the server...
-        // or remove locally:
-        if (!del_item || index === -1) {
-          console.error('Can not delete item.');
-          resolve(false);
-        }
-        else {
-          list.splice(index, 1);
-          resolve(true);
-        }
+      const list = this._studentsList.getValue();
+      const index = list.indexOf(del_item);
+      // send request to the server...
+      // or remove locally:
+      if (index === -1) {
+        console.error('Can not delete item.');
+        resolve(false);
+      }
+      else {
+        list.splice(index, 1);
+        this._studentsList.next(list);
+        resolve(true);
+      }
+    });
+  }
+
+
+  /* Classes: */
+  resetClass(class_id): Promise<Boolean> {
+    return new Promise(resolve => {
+      this.getAll().subscribe(list => {
+        list.forEach(student => {
+          if (student.classId === class_id) {
+            student.classId = null;
+            resolve(true);
+          }
+        });
+        resolve(false);
       });
     });
   }
