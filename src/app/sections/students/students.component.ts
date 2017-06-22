@@ -28,9 +28,8 @@ export class StudentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.studentService.getAll().subscribe((students) => {
+    this.studentService.getAll().then((students) => {
       this._data = this.list = students;
-      console.log(students);
 
       this.list.forEach((student) => {
         if (student.classId !== null) {
@@ -49,6 +48,9 @@ export class StudentsComponent implements OnInit {
     this.router.navigate(['/student', student._id]);
   }
 
+  editStudent(student): void {
+    this.router.navigate(['/student', 'edit', student._id]);
+  }
   deleteStudent(student): void {
     this.studentService.removeOne(student).then((result) => {
       console.log('Delete student:', result);

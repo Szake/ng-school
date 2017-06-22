@@ -17,17 +17,14 @@ import { Student } from '../models/student';
 @Injectable()
 export class ClassService {
   private _url = '../json/classes.json';
-  private _classesList: BehaviorSubject<Class[]> = new BehaviorSubject([]);
+  private _data: Class[];
+  private _last: number;
+  // private _classesList: BehaviorSubject<Class[]> = new BehaviorSubject([]);
 
 
   constructor(
     private http: Http
-  ) {
-    this.loadData().subscribe(list => {
-      // console.log('---> load all classes:', list.length);
-      this._classesList.next(list);
-    });
-  }
+  ) { }
 
 
   // Handlers (success/error):
@@ -43,25 +40,34 @@ export class ClassService {
   }
   private handleError (error: Response | any) {
     // console.error('An error occured.', error);
-    return Promise.reject('An error occured.');
+    return Promise.reject('An error occurred.');
   }
 
 
   // Request through HTTP:
-  loadData(): Observable<Class[]> {
-    return this.http.get(this._url).map(this.extractData).catch(this.handleError);
+  loadData(): Promise<Class[]> {
+    return this.http.get(this._url).toPromise().then(this.extractData).catch(this.handleError);
   }
 
   // All in the JSON:
-  getAll(): Observable<Class[]> {
-    return this._classesList.asObservable();
+  getAll(): Promise<Class[]> {
+    if (this._data) {
+      return Promise.resolve(this._data);
+    }
+    return new Promise(resolve => {
+      this.loadData().then((data) => {
+        this._data = data;
+        resolve(this._data);
+      });
+    });
   }
 
   // Length:
   getLast(): Promise<number> {
     return new Promise(resolve => {
-      this.getAll().subscribe(data => {
-        resolve(data[data.length - 1]['_id']);
+      this.getAll().then(data => {
+        let index = data.length - 1;
+        resolve(data[index] && data[index]['_id'] || 0);
       });
     });
   }
@@ -69,13 +75,13 @@ export class ClassService {
   // One by ID:
   getOne(id): Promise<Class> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
 
         const result = list.filter(item => {
           return item._id === id;
         })[0];
 
-        console.log('---> requested group: ', result, id);
+        // console.log('---> requested group: ', result, id);
         resolve(result);
       });
     });
@@ -86,25 +92,48 @@ export class ClassService {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      const list = this._classesList.getValue();
-      list.push(new_item);
-      list.forEach(item => {
-        if (item.teacherId === new_item.teacherId && item !== new_item) {
-          this.resetTeacher(item._id).then(result => {
-            result && resolve(true);
-            resolve(false);
-          });
-        }
+      const list = this._data;
+      this.resetTeacher(new_item.teacherId).then(result => {
+        list.push(new_item);
+        result && resolve(true);
+        resolve(false);
       });
-      this._classesList.next(list);
-      resolve(true);
     });
   }
 
-  // Remove from the list (through GET ALL):
+  // Edit current:
+  editOne(edited_item: Class): Promise<Boolean> {
+    return new Promise(resolve => {
+      // send request to the server...
+      // or save locally:
+      const list = this._data;
+      list.forEach(group => {
+        if (edited_item._id === group._id) {
+          if (edited_item.teacherId && edited_item.teacherId !== group.teacherId) {
+            this.resetTeacher(edited_item.teacherId).then(result => {
+              for (let key in group) {
+                group[key] = edited_item[key];
+              }
+              resolve(true);
+            });
+          }
+          else {
+            for (let key in group) {
+              group[key] = edited_item[key];
+            }
+            resolve(true);
+          }
+        }
+      });
+      resolve(false);
+    });
+  }
+
+  // Remove from the list:
   removeOne(del_item: Class): Promise<Boolean> {
     return new Promise(resolve => {
-      const list = this._classesList.getValue();
+      // const list = this._classesList.getValue();
+      const list = this._data;
       const index = list.indexOf(del_item);
       // send request to the server...
       // or remove locally:
@@ -114,7 +143,7 @@ export class ClassService {
       }
       else {
         list.splice(index, 1);
-        this._classesList.next(list);
+        // this._classesList.next(list);
         resolve(true);
       }
     });
@@ -124,7 +153,7 @@ export class ClassService {
   /* Teachers: */
   resetTeacher(teacher_id): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(group => {
           if (group.teacherId === teacher_id) {
             group.teacherId = null;
@@ -139,7 +168,7 @@ export class ClassService {
   // Update class with new teacher (1 teacher - 1 class):
   addTeacher(new_teacher: Teacher): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(group => {
           if (group._id === new_teacher.classId) {
             group.teacherId = new_teacher._id;
@@ -155,7 +184,7 @@ export class ClassService {
   /* Students: */
   resetStudent(student_id): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(group => {
           const index = group.studentId.indexOf(student_id);
           if (index !== -1) {
@@ -171,7 +200,7 @@ export class ClassService {
   // Add student ID to the list (through GET ALL):
   addStudent(new_student: Student): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         // send request to the server...
         // or change locally:
         list.forEach(group => {

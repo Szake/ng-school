@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+import 'rxjs/add/operator/switchMap';
 
 import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
 import { StudentService } from '../../services/student.service';
-import { ClassEntity } from '../../models/class-constructor';
 import { Class } from '../../models/class';
 import { Teacher } from '../../models/teacher';
 import { Student } from '../../models/student';
@@ -18,29 +19,38 @@ import { titleIn, contentIn } from '../../animations/content';
   animations: [ titleIn, contentIn ]
 })
 
-export class ClassAddComponent implements OnInit {
-  title = 'Create a class';
-  group = new ClassEntity(null, '', 1, null, null, '');
+export class ClassEditComponent implements OnInit {
+  title = 'Edit the class';
+  original_group: Class;
+  group: Class = {
+    _id: null,
+    name: 'No name',
+    level: 0,
+    teacherId: null,
+    studentId: [],
+    other: 'No description'
+  };
   teachers: Teacher[];
   students: Student[];
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private classService: ClassService,
-    private teacherService: TeacherService
+    private teacherService: TeacherService,
+    private studentService: StudentService
   ) {}
 
   ngOnInit() {
-    this.classService.getLast().then(data => {
-      if (this.group._id === null) {
-        this.group._id = ++data;
-      }
+    this.route.params.switchMap((params: Params) => {
+      return this.classService.getOne(+params['id']);
+    }).subscribe((group: Class) => {
+      this.original_group = group;
+      this.group = { ...group };
     });
+
     this.teacherService.getAll().then(data => {
       this.teachers = data;
-      if (this.group.teacherId === null && data[0]) {
-        this.group.teacherId = data[0]['_id'];
-      }
     });
   }
 
@@ -49,11 +59,15 @@ export class ClassAddComponent implements OnInit {
 
   // Push the new student to the store:
   submitForm() {
-    const new_group = { ...this.group };
-    this.classService.addOne(new_group).then(result => {
-      this.teacherService.addClass(new_group).then(result => {
+    this.classService.editOne({ ...this.group }).then(result => {
+      if (this.original_group.teacherId !== this.group.teacherId) {
+        this.teacherService.addClass(this.group).then(result => {
+          this.router.navigate(['/classes']);
+        });
+      }
+      else {
         this.router.navigate(['/classes']);
-      });
+      }
     });
   }
 }

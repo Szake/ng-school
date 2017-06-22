@@ -22,15 +22,20 @@ import { FooterControlsComponent } from './common/footer-controls/controls.compo
 
 // Routes:
 import { DashboardComponent } from './sections/dashboard/dashboard.component';
+
 import { ClassesComponent } from './sections/classes/classes.component';
 import { ClassComponent } from './sections/class/class.component';
 import { ClassAddComponent } from './sections/class/class-add.component';
+import { ClassEditComponent } from './sections/class/class-edit.component';
+
 import { TeachersComponent } from './sections/teachers/teachers.component';
 import { TeacherComponent } from './sections/teacher/teacher.component';
 import { TeacherAddComponent } from './sections/teacher/teacher-add.component';
+
 import { StudentsComponent } from './sections/students/students.component';
 import { StudentComponent } from './sections/student/student.component';
 import { StudentAddComponent } from './sections/student/student-add.component';
+
 import { PageNotFoundComponent } from './sections/404/404.component';
 
 
@@ -45,15 +50,20 @@ import { PageNotFoundComponent } from './sections/404/404.component';
     FooterControlsComponent,
 
     DashboardComponent,
+
     ClassesComponent,
     ClassComponent,
     ClassAddComponent,
+    ClassEditComponent,
+
     TeachersComponent,
     TeacherComponent,
     TeacherAddComponent,
+
     StudentsComponent,
     StudentComponent,
     StudentAddComponent,
+
     PageNotFoundComponent
   ],
   imports: [

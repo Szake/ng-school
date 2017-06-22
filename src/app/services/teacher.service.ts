@@ -16,17 +16,14 @@ import { Teacher } from '../models/teacher';
 @Injectable()
 export class TeacherService {
   private _url = '../json/teachers.json';
-  private _teachersList: BehaviorSubject<Teacher[]> = new BehaviorSubject([]);
+  private _data: Teacher[];
+  private _last: number;
+  // private _teachersList: BehaviorSubject<Teacher[]> = new BehaviorSubject([]);
 
 
   constructor(
     private http: Http
-  ) {
-    this.loadData().subscribe(list => {
-      // console.log('---> load all teachers:', list.length);
-      this._teachersList.next(list);
-    });
-  }
+  ) { }
 
 
   // Handlers (success/error):
@@ -42,25 +39,34 @@ export class TeacherService {
   }
   private handleError (error: Response | any) {
     // console.error('An error occured.', error);
-    return Promise.reject('An error occured.');
+    return Promise.reject('An error occurred.');
   }
 
 
   // Request through HTTP:
-  loadData(): Observable<Teacher[]> {
-    return this.http.get(this._url).map(this.extractData).catch(this.handleError);
+  loadData(): Promise<Teacher[]> {
+    return this.http.get(this._url).toPromise().then(this.extractData).catch(this.handleError);
   }
 
   // All in the JSON:
-  getAll(): Observable<Teacher[]> {
-    return this._teachersList.asObservable();
+  getAll(): Promise<Teacher[]> {
+    if (this._data) {
+      return Promise.resolve(this._data);
+    }
+    return new Promise(resolve => {
+      this.loadData().then((data) => {
+        this._data = data;
+        resolve(this._data);
+      });
+    });
   }
 
   // Length:
   getLast(): Promise<number> {
     return new Promise(resolve => {
-      this.getAll().subscribe(data => {
-        resolve(data[data.length - 1]['_id']);
+      this.getAll().then(data => {
+        let index = data.length - 1;
+        resolve(data[index] && data[index]['_id'] || 0);
       });
     });
   }
@@ -68,13 +74,13 @@ export class TeacherService {
   // One by ID:
   getOne(id): Promise<Teacher> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
 
         const result = list.filter(item => {
           return item._id === id;
         })[0];
 
-        console.log('---> requested teacher: ', result);
+        // console.log('---> requested teacher: ', result, id);
         resolve(result);
       });
     });
@@ -85,25 +91,20 @@ export class TeacherService {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      const list = this._teachersList.getValue();
-      list.push(new_item);
-      list.forEach(item => {
-        if (item.classId === new_item.classId && item !== new_item) {
-          this.resetClass(item._id).then(result => {
-            result && resolve(true);
-            resolve(false);
-          });
-        }
+      const list = this._data;
+      this.resetClass(new_item.classId).then(result => {
+        list.push(new_item);
+        result && resolve(true);
+        resolve(false);
       });
-      this._teachersList.next(list);
-      resolve(true);
     });
   }
 
   // Remove from the list:
   removeOne(del_item: Teacher): Promise<Boolean> {
     return new Promise(resolve => {
-      const list = this._teachersList.getValue();
+      // const list = this._teachersList.getValue();
+      const list = this._data;
       const index = list.indexOf(del_item);
       // send request to the server...
       // or remove locally:
@@ -113,7 +114,7 @@ export class TeacherService {
       }
       else {
         list.splice(index, 1);
-        this._teachersList.next(list);
+        // this._teachersList.next(list);
         resolve(true);
       }
     });
@@ -123,7 +124,7 @@ export class TeacherService {
   /* Classes: */
   resetClass(class_id): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(teacher => {
           if (teacher.classId === class_id) {
             teacher.classId = null;
@@ -138,7 +139,7 @@ export class TeacherService {
   // Update teacher with new teacher (1 teacher - 1 class):
   addClass(new_class: Class): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(teacher => {
           if (teacher._id === new_class.teacherId) {
             teacher.classId = new_class._id;

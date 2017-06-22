@@ -21,14 +21,14 @@ export class HeaderNavigationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.classService.getAll().subscribe(list => {
-      this.classes = list.length;
-    });
-    this.teacherService.getAll().subscribe(list => {
-      this.teachers = list.length;
-    });
-    this.studentService.getAll().subscribe(list => {
-      this.students = list.length;
-    });
+    // this.classService.getAll().subscribe(list => {
+    //   this.classes = list.length;
+    // });
+    // this.teacherService.getAll().subscribe(list => {
+    //   this.teachers = list.length;
+    // });
+    // this.studentService.getAll().subscribe(list => {
+    //   this.students = list.length;
+    // });
   }
 }

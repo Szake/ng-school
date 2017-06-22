@@ -29,15 +29,13 @@ export class TeachersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.teacherService.getAll().subscribe((teachers) => {
+    this.teacherService.getAll().then((teachers) => {
       this._data = this.list = teachers;
-      console.log(teachers);
 
       this.list.forEach((teacher) => {
         if (teacher.classId !== null) {
           this.classService.getOne(teacher.classId).then((group) => {
             this.groups[teacher._id] = group;
-            console.log(group);
           });
         }
       });
@@ -51,10 +49,13 @@ export class TeachersComponent implements OnInit {
     this.router.navigate(['/teacher', teacher._id]);
   }
 
+  editTeacher(teacher): void {
+    this.router.navigate(['/teacher', 'edit', teacher._id]);
+  }
   deleteTeacher(teacher): void {
     this.teacherService.removeOne(teacher).then((result) => {
       console.log('Delete teacher:', result);
-      this.classService.resetTeacher(teacher._id).then(result => {
+      this.classService.resetTeacher(teacher._id).then((result) => {
         console.log('Delete teacher from class:', result);
       });
     });

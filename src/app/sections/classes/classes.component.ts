@@ -30,15 +30,13 @@ export class ClassesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.classService.getAll().subscribe((classes) => {
+    this.classService.getAll().then((classes) => {
       this._data = this.list = classes;
-      console.log(classes);
 
       this.list.forEach((group) => {
         if (group.teacherId !== null) {
           this.teacherService.getOne(group.teacherId).then((teacher) => {
             this.teachers[group._id] = teacher;
-            console.log(teacher);
           });
         }
       });
@@ -52,6 +50,9 @@ export class ClassesComponent implements OnInit {
     this.router.navigate(['/teacher', teacher._id]);
   }
 
+  editClass(group): void {
+    this.router.navigate(['/class', 'edit', group._id]);
+  }
   deleteClass(group): void {
     this.classService.removeOne(group).then((result) => {
       console.log('Delete class:', result);

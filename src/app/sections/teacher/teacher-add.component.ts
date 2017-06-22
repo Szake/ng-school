@@ -10,12 +10,13 @@ import { titleIn, contentIn } from '../../animations/content';
 
 
 @Component({
-  templateUrl: './teacher-add.component.html',
+  templateUrl: './teacher-form.component.html',
   styleUrls: [ './teacher.component.css' ],
   animations: [ titleIn, contentIn ]
 })
 
 export class TeacherAddComponent implements OnInit {
+  title = 'Create a teacher';
   teacher = new TeacherEntity(null, '', '', '', null, null, '');
   groups: Class[];
 
@@ -31,7 +32,7 @@ export class TeacherAddComponent implements OnInit {
         this.teacher._id = ++data;
       }
     });
-    this.classService.getAll().subscribe(data => {
+    this.classService.getAll().then(data => {
       this.groups = data;
       if (this.teacher.classId === null && data[0]) {
         this.teacher.classId = data[0]['_id'];

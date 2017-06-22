@@ -1,40 +1,40 @@
-<h2 class="content-title" [@titleIn]="'in'">Create a student</h2>
+<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
 
 <div class="content-text" [@contentIn]="'in'">
-  <form class="form" #studentForm="ngForm" (ngSubmit)="addStudent(); studentForm.form.reset();">
+  <form class="form" #teacherForm="ngForm" (ngSubmit)="addTeacher(); teacherForm.form.reset();">
     <div class="form-ctrl">
       <label class="form-label" for="firstName">First Name</label>
-      <input class="form-field" id="firstName" name="firstName" type="text" [(ngModel)]="student.firstName" #firstName="ngModel" pattern="[a-zA-Z]{2,}" required>
+      <input class="form-field" id="firstName" name="firstName" type="text" [(ngModel)]="teacher.firstName" #firstName="ngModel" pattern="[a-zA-Z]{2,}" required>
       <div class="form-alert" [hidden]="firstName.valid || firstName.pristine">First name should be at least 2 symbols.</div>
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="lastName">Last Name</label>
-      <input class="form-field" id="lastName" name="lastName" type="text" [(ngModel)]="student.lastName" #lastName="ngModel" pattern="[a-zA-Z]{2,}" required>
+      <input class="form-field" id="lastName" name="lastName" type="text" [(ngModel)]="teacher.lastName" #lastName="ngModel" pattern="[a-zA-Z]{2,}" required>
       <div class="form-alert" [hidden]="lastName.valid || lastName.pristine">Last name should be at least 2 symbols.</div>
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="middleName">Middle Name</label>
-      <input class="form-field" id="middleName" name="middleName" type="text" [(ngModel)]="student.middleName" #middleName="ngModel" pattern="[a-zA-Z]{2,}" required>
+      <input class="form-field" id="middleName" name="middleName" type="text" [(ngModel)]="teacher.middleName" #middleName="ngModel" pattern="[a-zA-Z]{2,}" required>
       <div class="form-alert" [hidden]="middleName.valid || middleName.pristine">Middle name should be at least 2 symbols.</div>
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="birthday">Birthday</label>
-      <input class="form-field" id="birthday" name="birthday" type="date" [(ngModel)]="student.birthday" #birthday="ngModel" required>
+      <input class="form-field" id="birthday" name="birthday" type="date" [(ngModel)]="teacher.birthday" #birthday="ngModel" required>
       <div class="form-alert" [hidden]="birthday.valid || birthday.pristine">Birthday is required.</div>
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="group">Class</label>
-      <select class="form-field" id="group" name="group" [(ngModel)]="student.classId" #group="ngModel" required>
+      <select class="form-field" id="group" name="group" [(ngModel)]="teacher.classId" #group="ngModel" required>
         <option *ngFor="let group of groups" [ngValue]="group._id">{{group.name}}</option>
       </select>
       <div class="form-alert" [hidden]="group.valid">Class is required.</div>
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="other">Other</label>
-      <textarea class="form-field" id="other" name="other" [(ngModel)]="student.other" #other rows="4"></textarea>
+      <textarea class="form-field" id="other" name="other" [(ngModel)]="teacher.other" #other rows="4"></textarea>
     </div>
     <div class="form-submit">
-      <button class="button" type="submit" [disabled]="!studentForm.form.valid">Create</button>
+      <button class="button" type="submit" [disabled]="!teacherForm.form.valid">Create</button>
     </div>
   </form>
 </div>

@@ -1,7 +1,7 @@
 <h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
 
 <div class="content-controls" [@controlsIn]="'in'">
-  <a class="control-add" routerLink="/student/new" title="Create student">+</a>
+  <a class="control-add" routerLink="/student/create" title="Create student">+</a>
 </div>
 
 <div class="content-text" [@contentIn]="'in'">
@@ -24,6 +24,7 @@
       </td>
       <td>
         <a (click)="goToStudent(student)">Details</a>,
+        <a (click)="editStudent(student)">Edit</a>,
         <a (click)="deleteStudent(student)">Delete</a>
       </td>
     </tr>

@@ -10,12 +10,13 @@ import { titleIn, contentIn } from '../../animations/content';
 
 
 @Component({
-  templateUrl: './student-add.component.html',
+  templateUrl: './student-form.component.html',
   styleUrls: [ './student.component.css' ],
   animations: [ titleIn, contentIn ]
 })
 
 export class StudentAddComponent implements OnInit {
+  title = 'Create a student';
   student = new StudentEntity(null, '', '', '', null, null, '');
   groups: Class[];
 
@@ -31,7 +32,7 @@ export class StudentAddComponent implements OnInit {
         this.student._id = ++data;
       }
     });
-    this.classService.getAll().subscribe(data => {
+    this.classService.getAll().then(data => {
       this.groups = data;
       if (this.student.classId === null && data[0]) {
         this.student.classId = data[0]['_id'];

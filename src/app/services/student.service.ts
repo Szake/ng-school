@@ -15,17 +15,14 @@ import { Student } from '../models/student';
 @Injectable()
 export class StudentService {
   private _url = '../json/students.json';
-  private _studentsList: BehaviorSubject<Student[]> = new BehaviorSubject([]);
+  private _data: Student[];
+  private _last: number;
+  // private _studentsList: BehaviorSubject<Student[]> = new BehaviorSubject([]);
 
 
   constructor(
     private http: Http
-  ) {
-    this.loadData().subscribe(list => {
-      // console.log('---> load all students:', list.length);
-      this._studentsList.next(list);
-    });
-  }
+  ) { }
 
 
   // Handlers (success/error):
@@ -41,24 +38,32 @@ export class StudentService {
   }
   private handleError (error: Response | any) {
     // console.error('An error occured.', error);
-    return Promise.reject('An error occured.');
+    return Promise.reject('An error occurred.');
   }
 
 
   // Request through HTTP:
-  loadData(): Observable<Student[]> {
-    return this.http.get(this._url).map(this.extractData).catch(this.handleError);
+  loadData(): Promise<Student[]> {
+    return this.http.get(this._url).toPromise().then(this.extractData).catch(this.handleError);
   }
 
   // All in the JSON:
-  getAll(): Observable<Student[]> {
-    return this._studentsList.asObservable();
+  getAll(): Promise<Student[]> {
+    if (this._data) {
+      return Promise.resolve(this._data);
+    }
+    return new Promise(resolve => {
+      this.loadData().then((data) => {
+        this._data = data;
+        resolve(this._data);
+      });
+    });
   }
 
   // Group in the JSON:
   getRange(ids): Promise<Student[]> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         const result = list.filter(item => {
           return ids.indexOf(item._id) !== -1;
         });
@@ -72,8 +77,9 @@ export class StudentService {
   // Length:
   getLast(): Promise<number> {
     return new Promise(resolve => {
-      this.getAll().subscribe(data => {
-        resolve(data[data.length - 1]['_id']);
+      this.getAll().then(data => {
+        let index = data.length - 1;
+        resolve(data[index] && data[index]['_id'] || 0);
       });
     });
   }
@@ -81,26 +87,25 @@ export class StudentService {
   // One by ID:
   getOne(id): Promise<Student> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
 
         const result = list.filter(item => {
           return item._id === id;
         })[0];
 
-        // console.log('---> requested student: ', result);
+        // console.log('---> requested student: ', result, id);
         resolve(result);
       });
     });
   }
 
-  // Add new to the list:
+  // Add new to the list (through GET ALL):
   addOne(new_item: Student): Promise<Boolean> {
     return new Promise(resolve => {
       // send request to the server...
       // or save locally:
-      const list = this._studentsList.getValue();
+      const list = this._data;
       list.push(new_item);
-      this._studentsList.next(list);
       resolve(true);
     });
   }
@@ -108,7 +113,8 @@ export class StudentService {
   // Remove from the list:
   removeOne(del_item: Student): Promise<Boolean> {
     return new Promise(resolve => {
-      const list = this._studentsList.getValue();
+      // const list = this._studentsList.getValue();
+      const list = this._data;
       const index = list.indexOf(del_item);
       // send request to the server...
       // or remove locally:
@@ -118,7 +124,7 @@ export class StudentService {
       }
       else {
         list.splice(index, 1);
-        this._studentsList.next(list);
+        // this._studentsList.next(list);
         resolve(true);
       }
     });
@@ -128,7 +134,7 @@ export class StudentService {
   /* Classes: */
   resetClass(class_id): Promise<Boolean> {
     return new Promise(resolve => {
-      this.getAll().subscribe(list => {
+      this.getAll().then(list => {
         list.forEach(student => {
           if (student.classId === class_id) {
             student.classId = null;
