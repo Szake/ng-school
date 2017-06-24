@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
 import { StudentService } from '../../services/student.service';
+
 import { ClassEntity } from '../../models/class-constructor';
+
 import { Class } from '../../models/class';
 import { Teacher } from '../../models/teacher';
 import { Student } from '../../models/student';
@@ -36,6 +38,7 @@ export class ClassAddComponent implements OnInit {
         this.group._id = ++data;
       }
     });
+
     this.teacherService.getAll().then(data => {
       this.teachers = data;
       if (this.group.teacherId === null && data[0]) {

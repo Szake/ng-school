@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
+
 import { TeacherEntity } from '../../models/teacher-constructor';
+
 import { Class } from '../../models/class';
 
 import { titleIn, contentIn } from '../../animations/content';
@@ -32,6 +34,7 @@ export class TeacherAddComponent implements OnInit {
         this.teacher._id = ++data;
       }
     });
+
     this.classService.getAll().then(data => {
       this.groups = data;
       if (this.teacher.classId === null && data[0]) {

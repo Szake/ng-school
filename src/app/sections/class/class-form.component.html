@@ -1,10 +1,7 @@
-<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+<h2 class="content-title" [@titleIn]="load">{{title}}</h2>
 
-{{diagnostic}}
-
-<div class="content-text" [@contentIn]="'in'">
-  <!-- groupForm.form.reset(); -->
-  <form class="form" #groupForm="ngForm" (ngSubmit)="submitForm();">
+<div class="content-text" [@contentIn]="load">
+  <form class="form" #groupForm="ngForm" (ngSubmit)="submitForm(); groupForm.form.reset();">
     <div class="form-ctrl">
       <label class="form-label" for="name">Name</label>
       <input class="form-field" id="name" name="name" type="text" [(ngModel)]="group.name" #name="ngModel" pattern=".{2,}" required>
@@ -28,7 +25,7 @@
       <label class="form-label" for="other">Other</label>
       <textarea class="form-field" id="other" name="other" [(ngModel)]="group.other" #other rows="4"></textarea>
     </div>
-    <div class="form-submit">{{groupForm.form.untouched}}
+    <div class="form-submit">
       <button class="button" type="submit" [disabled]="groupForm.form.invalid || groupForm.form.untouched">Save</button>
     </div>
   </form>

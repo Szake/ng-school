@@ -17,11 +17,15 @@ export const titleIn = trigger('titleIn', [
     opacity: 1,
     transform: 'translateX(0)'
   })),
+  state('out', style({
+    opacity: 0,
+    transform: 'translateX(-100px)'
+  })),
   state('void', style({
     opacity: 0,
     transform: 'translateX(-100px)'
   })),
-  transition('void => in', animate('200ms 300ms ease-out'))
+  transition('* => in', animate('200ms 300ms ease-out'))
 ]);
 
 // Controls:
@@ -54,11 +58,15 @@ export const contentIn = trigger('contentIn', [
     opacity: 1,
     transform: 'translateY(0)'
   })),
+  state('out', style({
+    opacity: 0,
+    transform: 'translateY(80px)'
+  })),
   state('void', style({
     opacity: 0,
     transform: 'translateY(80px)'
   })),
-  transition('void => in', animate('500ms ease-out'))
+  transition('* => in', animate('500ms ease-out'))
 ]);
 
 // Footer:

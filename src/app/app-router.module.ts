@@ -12,10 +12,12 @@ import { ClassEditComponent } from './sections/class/class-edit.component';
 import { TeachersComponent } from './sections/teachers/teachers.component';
 import { TeacherComponent } from './sections/teacher/teacher.component';
 import { TeacherAddComponent } from './sections/teacher/teacher-add.component';
+import { TeacherEditComponent } from './sections/teacher/teacher-edit.component';
 
 import { StudentsComponent } from './sections/students/students.component';
 import { StudentComponent } from './sections/student/student.component';
 import { StudentAddComponent } from './sections/student/student-add.component';
+import { StudentEditComponent } from './sections/student/student-edit.component';
 
 import { PageNotFoundComponent } from './sections/404/404.component';
 
@@ -31,12 +33,12 @@ const appRoutes: Routes = [
   { path: 'teachers', component: TeachersComponent },
   { path: 'teacher/create', component: TeacherAddComponent },
   { path: 'teacher/:id', component: TeacherComponent },
-  // { path: 'teacher/edit/:id', component: TeacherAddComponent },
+  { path: 'teacher/edit/:id', component: TeacherEditComponent },
 
   { path: 'students', component: StudentsComponent },
   { path: 'student/create', component: StudentAddComponent },
   { path: 'student/:id', component: StudentComponent },
-  // { path: 'student/edit/:id', component: StudentAddComponent },
+  { path: 'student/edit/:id', component: StudentEditComponent },
 
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 

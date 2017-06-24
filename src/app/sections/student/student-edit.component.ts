@@ -7,7 +7,7 @@ import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
 import { StudentService } from '../../services/student.service';
 
-import { ClassEntity } from '../../models/class-constructor';
+import { StudentEntity } from '../../models/student-constructor';
 
 import { Class } from '../../models/class';
 import { Teacher } from '../../models/teacher';
@@ -17,50 +17,49 @@ import { titleIn, contentIn } from '../../animations/content';
 
 
 @Component({
-  templateUrl: './class-form.component.html',
-  styleUrls: [ './class.component.css' ],
+  templateUrl: './student-form.component.html',
+  styleUrls: [ './student.component.css' ],
   animations: [ titleIn, contentIn ]
 })
 
-export class ClassEditComponent implements OnInit {
-  title = 'Edit the class';
-  group = new ClassEntity(null, '', 1, null, null, '');
-  teachers: Teacher[];
-  students: Student[];
+export class StudentEditComponent implements OnInit {
+  title = 'Edit the student';
+  student = new StudentEntity(null, '', '', '', null, null, '');
+  groups: Class[];
   load = 'out';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private classService: ClassService,
-    private teacherService: TeacherService
+    private studentService: StudentService
   ) {}
 
   ngOnInit() {
     this.route.params.switchMap((params: Params) => {
-      return this.classService.getOne(+params['id']);
-    }).subscribe((group: Class) => {
-      if (typeof group === 'undefined') {
-        this.router.navigate(['/classes']);
+      return this.studentService.getOne(+params['id']);
+    }).subscribe((student: Student) => {
+      if (typeof student === 'undefined') {
+        this.router.navigate(['/students']);
       }
-      this.group = { ...group };
+      this.student = { ...student };
       this.load = 'in';
     });
 
-    this.teacherService.getAll().then(data => {
-      this.teachers = data;
+    this.classService.getAll().then(data => {
+      this.groups = data;
     });
   }
 
   // String result:
-  get diagnostic() { return JSON.stringify(this.group); }
+  get diagnostic() { return JSON.stringify(this.student); }
 
   // Push the new student to the store:
   submitForm() {
-    const edited_group = { ...this.group };
-    this.classService.editOne(edited_group).then(result => {
-      this.teacherService.addClass(edited_group).then(result => {
-        this.router.navigate(['/classes']);
+    const edited_student = { ...this.student };
+    this.studentService.editOne(edited_student).then(result => {
+      this.classService.addStudent(edited_student).then(result => {
+        this.router.navigate(['/students']);
       });
     });
   }

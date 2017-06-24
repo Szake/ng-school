@@ -109,20 +109,12 @@ export class ClassService {
       const list = this._data;
       list.forEach(group => {
         if (edited_item._id === group._id) {
-          if (edited_item.teacherId && edited_item.teacherId !== group.teacherId) {
-            this.resetTeacher(edited_item.teacherId).then(result => {
-              for (let key in group) {
-                group[key] = edited_item[key];
-              }
-              resolve(true);
-            });
-          }
-          else {
+          this.resetTeacher(edited_item.teacherId).then(result => {
             for (let key in group) {
               group[key] = edited_item[key];
             }
             resolve(true);
-          }
+          });
         }
       });
       resolve(false);
@@ -157,10 +149,9 @@ export class ClassService {
         list.forEach(group => {
           if (group.teacherId === teacher_id) {
             group.teacherId = null;
-            resolve(true);
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }
@@ -170,12 +161,14 @@ export class ClassService {
     return new Promise(resolve => {
       this.getAll().then(list => {
         list.forEach(group => {
-          if (group._id === new_teacher.classId) {
+          if (group._id === new_teacher.classId && group.teacherId !== new_teacher._id) {
             group.teacherId = new_teacher._id;
-            resolve(true);
+          }
+          else if (group._id !== new_teacher.classId && group.teacherId === new_teacher._id) {
+            group.teacherId = null;
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }
@@ -189,10 +182,9 @@ export class ClassService {
           const index = group.studentId.indexOf(student_id);
           if (index !== -1) {
             group.studentId.splice(index, 1);
-            resolve(true);
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }
@@ -204,12 +196,15 @@ export class ClassService {
         // send request to the server...
         // or change locally:
         list.forEach(group => {
-          if (group._id === new_student.classId) {
+          let index = group.studentId.indexOf(new_student._id);
+          if (group._id === new_student.classId && index === -1) {
             group.studentId.push(new_student._id);
-            resolve(true);
+          }
+          else if (group._id !== new_student.classId && index > -1) {
+            group.studentId.splice(index, 1);
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }

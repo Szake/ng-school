@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import { ClassService } from '../../services/class.service';
 import { StudentService } from '../../services/student.service';
+
 import { StudentEntity } from '../../models/student-constructor';
+
 import { Class } from '../../models/class';
 
 import { titleIn, contentIn } from '../../animations/content';
@@ -32,6 +34,7 @@ export class StudentAddComponent implements OnInit {
         this.student._id = ++data;
       }
     });
+
     this.classService.getAll().then(data => {
       this.groups = data;
       if (this.student.classId === null && data[0]) {
@@ -44,7 +47,7 @@ export class StudentAddComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.student); }
 
   // Push the new student to the store:
-  addStudent() {
+  submitForm() {
     const new_student = {...this.student};
     this.studentService.addOne(new_student).then(result => {
       this.classService.addStudent(new_student).then(result => {

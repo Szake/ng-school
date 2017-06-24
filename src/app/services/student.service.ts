@@ -110,6 +110,24 @@ export class StudentService {
     });
   }
 
+  // Edit current:
+  editOne(edited_item: Student): Promise<Boolean> {
+    return new Promise(resolve => {
+      // send request to the server...
+      // or save locally:
+      const list = this._data;
+      list.forEach(student => {
+        if (edited_item._id === student._id) {
+          for (let key in student) {
+            student[key] = edited_item[key];
+          }
+          resolve(true);
+        }
+      });
+      resolve(false);
+    });
+  }
+
   // Remove from the list:
   removeOne(del_item: Student): Promise<Boolean> {
     return new Promise(resolve => {
@@ -124,7 +142,6 @@ export class StudentService {
       }
       else {
         list.splice(index, 1);
-        // this._studentsList.next(list);
         resolve(true);
       }
     });
@@ -138,10 +155,9 @@ export class StudentService {
         list.forEach(student => {
           if (student.classId === class_id) {
             student.classId = null;
-            resolve(true);
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }

@@ -100,6 +100,26 @@ export class TeacherService {
     });
   }
 
+  // Edit current:
+  editOne(edited_item: Teacher): Promise<Boolean> {
+    return new Promise(resolve => {
+      // send request to the server...
+      // or save locally:
+      const list = this._data;
+      list.forEach(teacher => {
+        if (edited_item._id === teacher._id) {
+          this.resetClass(edited_item.classId).then(result => {
+            for (let key in teacher) {
+              teacher[key] = edited_item[key];
+            }
+            resolve(true);
+          });
+        }
+      });
+      resolve(false);
+    });
+  }
+
   // Remove from the list:
   removeOne(del_item: Teacher): Promise<Boolean> {
     return new Promise(resolve => {
@@ -128,10 +148,9 @@ export class TeacherService {
         list.forEach(teacher => {
           if (teacher.classId === class_id) {
             teacher.classId = null;
-            resolve(true);
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }
@@ -141,12 +160,14 @@ export class TeacherService {
     return new Promise(resolve => {
       this.getAll().then(list => {
         list.forEach(teacher => {
-          if (teacher._id === new_class.teacherId) {
+          if (teacher._id === new_class.teacherId && teacher.classId !== new_class._id) {
             teacher.classId = new_class._id;
-            resolve(true);
+          }
+          else if (teacher._id !== new_class.teacherId && teacher.classId === new_class._id) {
+            teacher.classId = null;
           }
         });
-        resolve(false);
+        resolve(true);
       });
     });
   }

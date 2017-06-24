@@ -31,10 +31,12 @@ import { ClassEditComponent } from './sections/class/class-edit.component';
 import { TeachersComponent } from './sections/teachers/teachers.component';
 import { TeacherComponent } from './sections/teacher/teacher.component';
 import { TeacherAddComponent } from './sections/teacher/teacher-add.component';
+import { TeacherEditComponent } from './sections/teacher/teacher-edit.component';
 
 import { StudentsComponent } from './sections/students/students.component';
 import { StudentComponent } from './sections/student/student.component';
 import { StudentAddComponent } from './sections/student/student-add.component';
+import { StudentEditComponent } from './sections/student/student-edit.component';
 
 import { PageNotFoundComponent } from './sections/404/404.component';
 
@@ -59,10 +61,12 @@ import { PageNotFoundComponent } from './sections/404/404.component';
     TeachersComponent,
     TeacherComponent,
     TeacherAddComponent,
+    TeacherEditComponent,
 
     StudentsComponent,
     StudentComponent,
     StudentAddComponent,
+    StudentEditComponent,
 
     PageNotFoundComponent
   ],

@@ -1,7 +1,7 @@
-<h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
+<h2 class="content-title" [@titleIn]="load">{{title}}</h2>
 
-<div class="content-text" [@contentIn]="'in'">
-  <form class="form" #teacherForm="ngForm" (ngSubmit)="addTeacher(); teacherForm.form.reset();">
+<div class="content-text" [@contentIn]="load">
+  <form class="form" #teacherForm="ngForm" (ngSubmit)="submitForm(); teacherForm.form.reset();">
     <div class="form-ctrl">
       <label class="form-label" for="firstName">First Name</label>
       <input class="form-field" id="firstName" name="firstName" type="text" [(ngModel)]="teacher.firstName" #firstName="ngModel" pattern="[a-zA-Z]{2,}" required>
@@ -34,7 +34,7 @@
       <textarea class="form-field" id="other" name="other" [(ngModel)]="teacher.other" #other rows="4"></textarea>
     </div>
     <div class="form-submit">
-      <button class="button" type="submit" [disabled]="!teacherForm.form.valid">Create</button>
+      <button class="button" type="submit" [disabled]="teacherForm.form.invalid || teacherForm.form.untouched">Create</button>
     </div>
   </form>
 </div>
