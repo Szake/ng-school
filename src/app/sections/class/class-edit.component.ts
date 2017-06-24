@@ -25,6 +25,7 @@ import { titleIn, contentIn } from '../../animations/content';
 export class ClassEditComponent implements OnInit {
   title = 'Edit the class';
   group = new ClassEntity(null, '', 1, null, null, '');
+  initial: Class;
   teachers: Teacher[];
   students: Student[];
   load = 'out';
@@ -44,6 +45,7 @@ export class ClassEditComponent implements OnInit {
         this.router.navigate(['/classes']);
       }
       this.group = { ...group };
+      this.initial = { ...group };
       this.load = 'in';
     });
 
@@ -54,6 +56,9 @@ export class ClassEditComponent implements OnInit {
 
   // String result:
   get diagnostic() { return JSON.stringify(this.group); }
+
+  get data_origin() { return JSON.stringify(this.initial); }
+  get data_edited() { return JSON.stringify(this.group); }
 
   // Push the new student to the store:
   submitForm() {
