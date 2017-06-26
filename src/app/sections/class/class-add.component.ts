@@ -25,6 +25,7 @@ export class ClassAddComponent implements OnInit {
   group = new ClassEntity(null, '', 1, null, [], '');
   teachers: Teacher[];
   students: Student[];
+  load = 'in';
 
   constructor(
     private router: Router,

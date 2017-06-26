@@ -21,6 +21,7 @@ export class StudentAddComponent implements OnInit {
   title = 'Create a student';
   student = new StudentEntity(null, '', '', '', null, null, '');
   groups: Class[];
+  load = 'in';
 
   constructor(
     private router: Router,

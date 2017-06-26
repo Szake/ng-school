@@ -21,6 +21,7 @@ export class TeacherAddComponent implements OnInit {
   title = 'Create a teacher';
   teacher = new TeacherEntity(null, '', '', '', null, null, '');
   groups: Class[];
+  load = 'in';
 
   constructor(
     private router: Router,
