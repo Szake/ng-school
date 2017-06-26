@@ -47,7 +47,7 @@ export class TeacherAddComponent implements OnInit {
   get diagnostic() { return JSON.stringify(this.teacher); }
 
   // Push new teacher to the store:
-  addTeacher() {
+  submitForm() {
     const new_teacher = {...this.teacher};
     this.teacherService.addOne(new_teacher).then(result => {
       this.classService.addTeacher(new_teacher).then(result => {

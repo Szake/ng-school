@@ -17,12 +17,16 @@ export class StudentService {
   private _url = '../json/students.json';
   private _data: Student[];
   private _last: number;
-  // private _studentsList: BehaviorSubject<Student[]> = new BehaviorSubject([]);
+  private _amount: BehaviorSubject<number> = new BehaviorSubject(0);
 
 
   constructor(
     private http: Http
-  ) { }
+  ) {
+    this.getAll().then(response => {
+      // callback
+    });
+  }
 
 
   // Handlers (success/error):
@@ -55,6 +59,7 @@ export class StudentService {
     return new Promise(resolve => {
       this.loadData().then((data) => {
         this._data = data;
+        this._amount.next(data.length);
         resolve(this._data);
       });
     });
@@ -106,6 +111,7 @@ export class StudentService {
       // or save locally:
       const list = this._data;
       list.push(new_item);
+      this._amount.next(list.length);
       resolve(true);
     });
   }
@@ -142,9 +148,15 @@ export class StudentService {
       }
       else {
         list.splice(index, 1);
+        this._amount.next(list.length);
         resolve(true);
       }
     });
+  }
+
+  // Get amount:
+  getAmount(): Observable<any> {
+    return this._amount.asObservable();
   }
 
 

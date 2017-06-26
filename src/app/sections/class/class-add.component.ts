@@ -22,7 +22,7 @@ import { titleIn, contentIn } from '../../animations/content';
 
 export class ClassAddComponent implements OnInit {
   title = 'Create a class';
-  group = new ClassEntity(null, '', 1, null, null, '');
+  group = new ClassEntity(null, '', 1, null, [], '');
   teachers: Teacher[];
   students: Student[];
 

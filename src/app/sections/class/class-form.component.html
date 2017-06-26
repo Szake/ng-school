@@ -26,7 +26,7 @@
       <textarea class="form-field" id="other" name="other" [(ngModel)]="group.other" #other rows="4"></textarea>
     </div>
     <div class="form-submit">
-      <button class="button" type="submit" [disabled]="groupForm.form.invalid || data_origin && data_origin !== data_edited">Save</button>
+      <button class="button" type="submit" [disabled]="groupForm.form.invalid || data_origin && data_origin === data_edited">Save</button>
     </div>
   </form>
 </div>

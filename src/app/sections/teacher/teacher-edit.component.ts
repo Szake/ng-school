@@ -7,7 +7,7 @@ import { ClassService } from '../../services/class.service';
 import { TeacherService } from '../../services/teacher.service';
 import { StudentService } from '../../services/student.service';
 
-import { StudentEntity } from '../../models/student-constructor';
+import { TeacherEntity } from '../../models/teacher-constructor';
 
 import { Class } from '../../models/class';
 import { Teacher } from '../../models/teacher';
@@ -17,15 +17,15 @@ import { titleIn, contentIn } from '../../animations/content';
 
 
 @Component({
-  templateUrl: './student-form.component.html',
-  styleUrls: [ './student.component.css' ],
+  templateUrl: './teacher-form.component.html',
+  styleUrls: [ './teacher.component.css' ],
   animations: [ titleIn, contentIn ]
 })
 
-export class StudentEditComponent implements OnInit {
-  title = 'Edit the student';
-  student = new StudentEntity(null, '', '', '', null, null, '');
-  initial: Student;
+export class TeacherEditComponent implements OnInit {
+  title = 'Edit the teacher';
+  teacher = new TeacherEntity(null, '', '', '', null, null, '');
+  initial: Teacher;
   groups: Class[];
   load = 'out';
 
@@ -33,18 +33,18 @@ export class StudentEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private classService: ClassService,
-    private studentService: StudentService
+    private teacherService: TeacherService
   ) {}
 
   ngOnInit() {
     this.route.params.switchMap((params: Params) => {
-      return this.studentService.getOne(+params['id']);
-    }).subscribe((student: Student) => {
-      if (typeof student === 'undefined') {
-        this.router.navigate(['/students']);
+      return this.teacherService.getOne(+params['id']);
+    }).subscribe((teacher: Teacher) => {
+      if (typeof teacher === 'undefined') {
+        this.router.navigate(['/teachers']);
       }
-      this.student = { ...student };
-      this.initial = { ...student };
+      this.teacher = { ...teacher };
+      this.initial = { ...teacher };
       this.load = 'in';
     });
 
@@ -54,18 +54,18 @@ export class StudentEditComponent implements OnInit {
   }
 
   // String result:
-  get diagnostic() { return JSON.stringify(this.student); }
+  get diagnostic() { return JSON.stringify(this.teacher); }
 
   // Compare initial with target data:
   get data_origin() { return JSON.stringify(this.initial); }
-  get data_edited() { return JSON.stringify(this.student); }
+  get data_edited() { return JSON.stringify(this.teacher); }
 
   // Push the new student to the store:
   submitForm() {
-    const edited_student = { ...this.student };
-    this.studentService.editOne(edited_student).then(result => {
-      this.classService.addStudent(edited_student).then(result => {
-        this.router.navigate(['/students']);
+    const edited_teacher = { ...this.teacher };
+    this.teacherService.editOne(edited_teacher).then(result => {
+      this.classService.addTeacher(edited_teacher).then(result => {
+        this.router.navigate(['/teachers']);
       });
     });
   }

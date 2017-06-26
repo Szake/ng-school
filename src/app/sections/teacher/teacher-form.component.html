@@ -34,7 +34,7 @@
       <textarea class="form-field" id="other" name="other" [(ngModel)]="teacher.other" #other rows="4"></textarea>
     </div>
     <div class="form-submit">
-      <button class="button" type="submit" [disabled]="teacherForm.form.invalid || teacherForm.form.untouched">Create</button>
+      <button class="button" type="submit" [disabled]="teacherForm.form.invalid || data_origin && data_origin === data_edited">Create</button>
     </div>
   </form>
 </div>

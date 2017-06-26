@@ -57,6 +57,7 @@ export class ClassEditComponent implements OnInit {
   // String result:
   get diagnostic() { return JSON.stringify(this.group); }
 
+  // Compare initial with target data:
   get data_origin() { return JSON.stringify(this.initial); }
   get data_edited() { return JSON.stringify(this.group); }
 

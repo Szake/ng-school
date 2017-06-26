@@ -14,6 +14,8 @@ import { ClassService } from './services/class.service';
 import { TeacherService } from './services/teacher.service';
 import { StudentService } from './services/student.service';
 
+import { SortService } from './services/sort.service';
+
 // Common:
 import { HeaderNavigationComponent } from './common/header-navigation/navigation.component';
 import { HeaderAccountComponent } from './common/header-account/account.component';
@@ -81,7 +83,8 @@ import { PageNotFoundComponent } from './sections/404/404.component';
   providers: [
     ClassService,
     TeacherService,
-    StudentService
+    StudentService,
+    SortService
   ],
   bootstrap: [ AppComponent ]
 })

@@ -11,6 +11,7 @@ import 'rxjs/add/operator/catch';
 // Model:
 import { Class } from '../models/class';
 import { Teacher } from '../models/teacher';
+import {concatStatic} from "rxjs/operator/concat";
 
 
 @Injectable()
@@ -18,12 +19,16 @@ export class TeacherService {
   private _url = '../json/teachers.json';
   private _data: Teacher[];
   private _last: number;
-  // private _teachersList: BehaviorSubject<Teacher[]> = new BehaviorSubject([]);
+  private _amount: BehaviorSubject<number> = new BehaviorSubject(0);
 
 
   constructor(
     private http: Http
-  ) { }
+  ) {
+    this.getAll().then(response => {
+      // callback
+    });
+  }
 
 
   // Handlers (success/error):
@@ -56,6 +61,7 @@ export class TeacherService {
     return new Promise(resolve => {
       this.loadData().then((data) => {
         this._data = data;
+        this._amount.next(data.length);
         resolve(this._data);
       });
     });
@@ -94,6 +100,7 @@ export class TeacherService {
       const list = this._data;
       this.resetClass(new_item.classId).then(result => {
         list.push(new_item);
+        this._amount.next(list.length);
         result && resolve(true);
         resolve(false);
       });
@@ -134,10 +141,15 @@ export class TeacherService {
       }
       else {
         list.splice(index, 1);
-        // this._teachersList.next(list);
+        this._amount.next(list.length);
         resolve(true);
       }
     });
+  }
+
+  // Get amount:
+  getAmount(): Observable<any> {
+    return this._amount.asObservable();
   }
 
 

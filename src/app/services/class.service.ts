@@ -19,12 +19,16 @@ export class ClassService {
   private _url = '../json/classes.json';
   private _data: Class[];
   private _last: number;
-  // private _classesList: BehaviorSubject<Class[]> = new BehaviorSubject([]);
+  private _amount: BehaviorSubject<number> = new BehaviorSubject(0);
 
 
   constructor(
     private http: Http
-  ) { }
+  ) {
+    this.getAll().then(response => {
+      // callback
+    });
+  }
 
 
   // Handlers (success/error):
@@ -57,6 +61,7 @@ export class ClassService {
     return new Promise(resolve => {
       this.loadData().then((data) => {
         this._data = data;
+        this._amount.next(data.length);
         resolve(this._data);
       });
     });
@@ -95,6 +100,7 @@ export class ClassService {
       const list = this._data;
       this.resetTeacher(new_item.teacherId).then(result => {
         list.push(new_item);
+        this._amount.next(list.length);
         result && resolve(true);
         resolve(false);
       });
@@ -124,7 +130,6 @@ export class ClassService {
   // Remove from the list:
   removeOne(del_item: Class): Promise<Boolean> {
     return new Promise(resolve => {
-      // const list = this._classesList.getValue();
       const list = this._data;
       const index = list.indexOf(del_item);
       // send request to the server...
@@ -135,10 +140,15 @@ export class ClassService {
       }
       else {
         list.splice(index, 1);
-        // this._classesList.next(list);
+        this._amount.next(list.length);
         resolve(true);
       }
     });
+  }
+
+  // Get amount:
+  getAmount(): Observable<any> {
+    return this._amount.asObservable();
   }
 
 
