@@ -5,7 +5,7 @@ export class StudentEntity {
     public lastName: string,
     public middleName: string,
     public birthday: Date | null,
-    public classId: number,
+    public classId: number | null,
     public other: string
   ) {}
 }

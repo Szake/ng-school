@@ -14,7 +14,7 @@
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="middleName">Middle Name</label>
-      <input class="form-field" id="middleName" name="middleName" type="text" [(ngModel)]="student.middleName" #middleName="ngModel" pattern="[a-zA-Z]{2,}" required>
+      <input class="form-field" id="middleName" name="middleName" type="text" [(ngModel)]="student.middleName" #middleName="ngModel" pattern="[a-zA-Z]{2,}">
       <div class="form-alert" [hidden]="middleName.valid || middleName.pristine">Middle name should be at least 2 symbols.</div>
     </div>
     <div class="form-ctrl">
@@ -24,7 +24,8 @@
     </div>
     <div class="form-ctrl">
       <label class="form-label" for="group">Class</label>
-      <select class="form-field" id="group" name="group" [(ngModel)]="student.classId" #group="ngModel" required>
+      <select class="form-field" id="group" name="group" [(ngModel)]="student.classId" #group="ngModel">
+        <option [ngValue]="null">No student</option>
         <option *ngFor="let group of groups" [ngValue]="group._id">{{group.name}}</option>
       </select>
       <div class="form-alert" [hidden]="group.valid">Class is required.</div>

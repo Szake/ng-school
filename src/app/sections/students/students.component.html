@@ -10,7 +10,7 @@
       <th>#</th>
       <th class="control" [ngClass]="{'active': sort.data.property === 'firstName'}" (click)="sortBy('firstName')">First name</th>
       <th class="control" [ngClass]="{'active': sort.data.property === 'lastName'}" (click)="sortBy('lastName')">Last name</th>
-      <th>Birthday</th>
+      <th class="control" [ngClass]="{'active': sort.data.property === 'birthday'}" (click)="sortBy('birthday')">Birthday</th>
       <th class="control" [ngClass]="{'active': sort.data.property === 'classId'}" (click)="sortBy('classId')">Class</th>
       <th>Controls</th>
     </tr>

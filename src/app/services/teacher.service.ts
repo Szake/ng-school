@@ -36,8 +36,7 @@ export class TeacherService {
     const data = response.json();
     data.forEach((item) => {
       if (item.birthday) {
-        let date = item.birthday.split(/\-/).slice(0, 3).map(n => parseInt(n));
-        item.birthday = new Date(date[0] || 0, date[1] || 0, date[2] || 0);
+        item.birthday = item.birthday.split('T')[0];
       }
     });
     return data;
