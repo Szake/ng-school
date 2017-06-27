@@ -14,8 +14,8 @@
       <th class="control" [ngClass]="{'active': sort.data.property === 'classId'}" (click)="sortBy('classId')">Class</th>
       <th>Controls</th>
     </tr>
-    <tr *ngFor="let student of (list && list[page_curr - 1]); let i = index">
-      <td>{{page_curr * page_size - page_size + i + 1}}</td>
+    <tr *ngFor="let student of (list && list[pager.current - 1]); let i = index">
+      <td>{{pager.current * pager.size - pager.size + i + 1}}</td>
       <td>{{student.firstName}}</td>
       <td>{{student.lastName}}</td>
       <td>{{student.birthday | date : 'longDate'}}</td>
@@ -30,7 +30,5 @@
     </tr>
   </table>
 
-  <ul class="pagination" *ngIf="list && (list.length > 1)">
-    <li class="pagination-ctrl" *ngFor="let item of list; let i = index;" [ngClass]="{'active': page_curr === (i + 1)}" (click)="goToPage(i)">{{ i + 1 }}</li>
-  </ul>
+  <app-pagination [pages]="list" [active]="pager.current" (toPage)="goToPage($event)"></app-pagination>
 </div>

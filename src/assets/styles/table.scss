@@ -22,7 +22,8 @@
   background: #444;
 }
 .table th.active {
-  background: #ff4040;
+  background-image: linear-gradient(to bottom, #ff4040 0, #ff4040 50%, #ee3030 51%, #ee3030 100%);
+  background-color: #ff4040;
   color: #fff;
   cursor: default;
   pointer-events: none;

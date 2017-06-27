@@ -22,6 +22,7 @@ export class StudentsComponent implements OnInit {
   title = 'Students';
   list: Student[];
   groups = {};
+
   sort = {
     key: 'student',
     data: {
@@ -31,8 +32,10 @@ export class StudentsComponent implements OnInit {
     }
   };
 
-  page_curr = 1;
-  page_size = 10;
+  pager = {
+    current: 1,
+    size: 10
+  };
 
 
   constructor(
@@ -69,7 +72,7 @@ export class StudentsComponent implements OnInit {
   // Slice:
   sliceToPages(list: Student[]): Student[] {
     const sliced = list.reduce((result, item, i) => {
-      const page_number = Math.ceil(++i / this.page_size);
+      const page_number = Math.ceil(++i / this.pager.size);
 
       if (page_number > result.length) {
         result.push([item]);
@@ -81,7 +84,7 @@ export class StudentsComponent implements OnInit {
     }, []);
 
     // Check current page:
-    this.page_curr = sliced.length < this.page_curr ? sliced.length : this.page_curr;
+    this.pager.current = sliced.length < this.pager.current ? sliced.length : this.pager.current;
 
     return sliced;
   }
@@ -113,8 +116,8 @@ export class StudentsComponent implements OnInit {
   }
 
   // Go to:
-  goToPage(order): void {
-    this.page_curr = ++order;
+  goToPage(page): void {
+    this.pager.current = page;
   }
   goToClass(group): void {
     this.router.navigate(['/class', group._id]);

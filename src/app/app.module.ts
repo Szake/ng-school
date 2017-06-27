@@ -20,6 +20,7 @@ import { SortService } from './services/sort.service';
 import { HeaderNavigationComponent } from './common/header-navigation/navigation.component';
 import { HeaderAccountComponent } from './common/header-account/account.component';
 import { SliderComponent } from './common/slider/slider.component';
+import { PaginationComponent } from './common/pagination/pagination.component';
 import { FooterControlsComponent } from './common/footer-controls/controls.component';
 
 // Routes:
@@ -51,6 +52,7 @@ import { PageNotFoundComponent } from './sections/404/404.component';
     HeaderNavigationComponent,
     HeaderAccountComponent,
     SliderComponent,
+    PaginationComponent,
     FooterControlsComponent,
 
     DashboardComponent,

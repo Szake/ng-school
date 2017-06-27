@@ -1,0 +1,6 @@
+<ul class="pagination" *ngIf="pages && (pages.length > 1)">
+  <li class="pagination-ctrl"
+      [ngClass]="{'active': (i + 1) === current}"
+      *ngFor="let page of pages; let i = index;"
+      (click)="goToPage(i)">{{i + 1}}</li>
+</ul>
