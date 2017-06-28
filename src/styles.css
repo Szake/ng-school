@@ -136,10 +136,8 @@ flex: 0 0 auto;
 @import './assets/styles/form.scss';
 @import './assets/styles/button.scss';
 @import './assets/styles/loader.scss';
-@import './assets/styles/pagination.scss';
 @import './assets/styles/table.scss';
 @import './assets/styles/breadcrumbs.scss';
-@import './assets/styles/search-bar.scss';
 @import './assets/styles/details.scss';
 
 .control-add {

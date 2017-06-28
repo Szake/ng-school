@@ -21,6 +21,7 @@ import { HeaderNavigationComponent } from './common/header-navigation/navigation
 import { HeaderAccountComponent } from './common/header-account/account.component';
 import { SliderComponent } from './common/slider/slider.component';
 import { PaginationComponent } from './common/pagination/pagination.component';
+import { SearchBarComponent } from './common/search-bar/search-bar.component';
 import { FooterControlsComponent } from './common/footer-controls/controls.component';
 
 // Routes:
@@ -53,6 +54,7 @@ import { PageNotFoundComponent } from './sections/404/404.component';
     HeaderAccountComponent,
     SliderComponent,
     PaginationComponent,
+    SearchBarComponent,
     FooterControlsComponent,
 
     DashboardComponent,
