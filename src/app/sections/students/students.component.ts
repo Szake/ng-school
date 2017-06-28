@@ -20,7 +20,8 @@ export class StudentsComponent implements OnInit {
   private _data: Student[];
 
   title = 'Students';
-  list: Student[];
+  pages = [];
+  students: Student[] = [];
   groups = {};
 
   sort = {
@@ -30,6 +31,10 @@ export class StudentsComponent implements OnInit {
       bound: null,
       bound_property: null
     }
+  };
+
+  search = {
+    query: ''
   };
 
   pager = {
@@ -51,6 +56,7 @@ export class StudentsComponent implements OnInit {
     this.loadStudents();
   }
 
+
   // Main:
   loadStudents() {
     this.studentService.getAll().then((students) => {
@@ -64,12 +70,65 @@ export class StudentsComponent implements OnInit {
         }, {});
 
         // Sort and slice to pages:
-        this.sortBy();
+        this.buildTable();
       });
     });
   }
 
-  // Slice:
+  buildTable(list = this._data) {
+    const searched = this.searchData(list);
+    const sorted = this.sortData(searched);
+    const sliced = this.sliceToPages(sorted);
+
+    this.pages = sliced;
+    this.students = sorted;
+  }
+
+
+  // Sort, Search data:
+  sortData(list, property = this.sort.data.property) {
+    if (!property) { return list; }
+
+    let sorted;
+
+    // Sort by ASC:
+    if (property === 'classId') {
+      // key, list, property, bound, bound_property
+      sorted = this.sortService.sortAscByBound(this.sort.key, list, property, this.groups, 'name');
+    }
+    else {
+      // key, list, property
+      sorted = this.sortService.sortAscBy(this.sort.key, list, property);
+    }
+    return sorted;
+  }
+  searchData(list, query = this.search.query) {
+    if (query.length === 0) { return list; }
+    const keys = ['firstName', 'lastName', 'birthday', 'classId'];
+
+    const searched = list.filter((student) => {
+      for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let value = student[key];
+
+        if (key === 'classId') {
+          value = this.groups[value].name;
+          if (value.toLowerCase().indexOf(query) !== -1) { return true; }
+        }
+        else if (typeof value === 'number') {
+          value = value + '';
+          if (value.indexOf(query) !== -1) { return true; }
+        }
+        else if (typeof value === 'string') {
+          if (value.toLowerCase().indexOf(query) !== -1) { return true; }
+        }
+      }
+      return false;
+    });
+    return searched;
+  }
+
+  // Slice into pages to display:
   sliceToPages(list: Student[]): Student[] {
     const sliced = list.reduce((result, item, i) => {
       const page_number = Math.ceil(++i / this.pager.size);
@@ -84,35 +143,20 @@ export class StudentsComponent implements OnInit {
     }, []);
 
     // Check current page:
-    this.pager.current = sliced.length < this.pager.current ? sliced.length : this.pager.current;
+    this.pager.current = sliced.length < this.pager.current ? (sliced.length || 1) : this.pager.current;
 
     return sliced;
   }
 
-  // Filter:
-  sortBy(property = this.sort.data.property): void {
-    if (!property) { return; }
 
-    // console.log('Sort by: ' + property);
-    let sorted;
-
-    // Sort by ASC:
-    if (property === 'classId') {
-      // key, list, property, bound, bound_property
-      sorted = this.sortService.sortAscByBound(this.sort.key, this._data, property, this.groups, 'name');
-    }
-    else {
-      // key, list, property
-      sorted = this.sortService.sortAscBy(this.sort.key, this._data, property);
-    }
-
-    // Remember the property:
-    if (this.sort.data.property !== property) {
-      this.sort.data.property = property;
-    }
-
-    // Slice to pages:
-    this.list = this.sliceToPages(sorted);
+  // Sort, Search events:
+  sortBy(property): void {
+    this.sort.data.property = property;
+    this.buildTable();
+  }
+  searchBy(event): void {
+    this.search.query = event.target.value;
+    this.buildTable();
   }
 
   // Go to:
@@ -125,6 +169,7 @@ export class StudentsComponent implements OnInit {
   goToStudent(student): void {
     this.router.navigate(['/student', student._id]);
   }
+
 
   // Controls:
   editStudent(student): void {

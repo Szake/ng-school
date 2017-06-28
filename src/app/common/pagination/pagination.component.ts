@@ -17,9 +17,7 @@ export class PaginationComponent implements OnInit {
   constructor() {}
 
 
-  ngOnInit() {
-    console.log(this.pages, this.current);
-  }
+  ngOnInit() {}
 
   goToPage(i) {
     const page = i + 1;

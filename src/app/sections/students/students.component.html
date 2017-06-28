@@ -5,6 +5,11 @@
 </div>
 
 <div class="content-text" [@contentIn]="'in'">
+  <div class="search-bar">
+    <div class="search-bar-descr">Results found: {{students.length}}</div>
+    <input class="search-bar-field" type="text" (input)="searchBy($event)">
+  </div>
+
   <table class="table">
     <tr>
       <th>#</th>
@@ -14,7 +19,7 @@
       <th class="control" [ngClass]="{'active': sort.data.property === 'classId'}" (click)="sortBy('classId')">Class</th>
       <th>Controls</th>
     </tr>
-    <tr *ngFor="let student of (list && list[pager.current - 1]); let i = index">
+    <tr *ngFor="let student of (pages && pages[pager.current - 1]); let i = index">
       <td>{{pager.current * pager.size - pager.size + i + 1}}</td>
       <td>{{student.firstName}}</td>
       <td>{{student.lastName}}</td>
@@ -30,5 +35,5 @@
     </tr>
   </table>
 
-  <app-pagination [pages]="list" [active]="pager.current" (toPage)="goToPage($event)"></app-pagination>
+  <app-pagination [pages]="pages" [active]="pager.current" (toPage)="goToPage($event)"></app-pagination>
 </div>

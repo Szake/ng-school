@@ -1,0 +1,30 @@
+.search-bar {
+  margin: 20px 0;
+  text-align: right;
+}
+.search-bar-descr {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  font-size: 12px;
+  color: #888;
+  vertical-align: middle;
+}
+.search-bar-field {
+  display: inline-block;
+  width: 200px;
+  height: 30px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 0;
+  background: #fff;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 30px;
+  color: #000;
+  vertical-align: middle;
+}
+.search-bar-field:focus {
+  border-color: #ff4040;
+  outline: none;
+}
