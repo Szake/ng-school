@@ -11,15 +11,17 @@
   color: #fff;
   vertical-align: middle;
   cursor: pointer;
-}
-.button:hover {
-  background: #ee3030;
-}
-.button:focus {
-  outline: 1px dashed #ff4040;
-  outline-offset: 2px;
- }
-.button[disabled] {
-  background: #e6e6e6;
-  cursor: default;
+
+  // States:
+  &:hover {
+    background: darken(#ff4040, 15%);
+  }
+  &:focus {
+    outline: 1px dashed #ff4040;
+    outline-offset: 2px;
+  }
+  &[disabled] {
+    background: #e6e6e6;
+    cursor: default;
+  }
 }

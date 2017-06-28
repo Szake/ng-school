@@ -6,7 +6,7 @@ import { StudentService } from '../../services/student.service';
 @Component({
   selector: 'app-header-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: [ './navigation.component.css' ]
+  styleUrls: [ './navigation.component.scss' ]
 })
 
 export class HeaderNavigationComponent implements OnInit {

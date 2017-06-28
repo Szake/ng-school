@@ -1,0 +1,18 @@
+.account {
+  font-size: 12px;
+
+  // Nested:
+  &-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &-item {
+    display: inline-block;
+    margin: 0 10px 0 0;
+    vertical-align: middle;
+  }
+  &-link {
+    display: block;
+  }
+}

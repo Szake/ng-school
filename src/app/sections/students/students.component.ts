@@ -12,7 +12,7 @@ import { titleIn, controlsIn, contentIn } from '../../animations/content';
 
 @Component({
   templateUrl: 'students.component.html',
-  styleUrls: [ './students.component.css' ],
+  styleUrls: [ './students.component.scss' ],
   animations: [ titleIn, controlsIn, contentIn ]
 })
 

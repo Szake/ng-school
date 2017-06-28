@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-footer-controls',
   templateUrl: './controls.component.html',
-  styleUrls: [ './controls.component.css' ]
+  styleUrls: [ './controls.component.scss' ]
 })
 
 export class FooterControlsComponent {

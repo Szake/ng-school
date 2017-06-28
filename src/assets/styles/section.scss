@@ -1,0 +1,8 @@
+/* Section: */
+.section {
+  margin: 20px 0;
+
+  // Order:
+  &:first-child { margin-top: 0; }
+  &:last-child { margin-bottom: 0; }
+}

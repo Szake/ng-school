@@ -5,7 +5,7 @@ import { slideState } from '../../animations/slider';
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  styleUrls: [ './slider.component.css' ],
+  styleUrls: [ './slider.component.scss' ],
   animations: [ slideState ]
 })
 

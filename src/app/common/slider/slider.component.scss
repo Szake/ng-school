@@ -1,0 +1,126 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  $slider: &;
+
+  // Nested:
+  &-list {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 300px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: transparent;
+
+    // Slides:
+    &-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0 10px 0 0;
+      box-sizing: border-box;
+      padding: 40px;
+      background: #e6e6e6;
+
+      // Order:
+      &:nth-child(5n + 1) { background: #aaa; }
+      &:nth-child(5n + 2) { background: #bbb; }
+      &:nth-child(5n + 3) { background: #ccc; }
+      &:nth-child(5n + 4) { background: #ddd; }
+      &:nth-child(5n + 5) { background: #eee; }
+    }
+
+    // Slide components:
+    &-title {
+      margin: 0 0 20px;
+      font-weight: 700;
+      font-size: 42px;
+      line-height: 1.2;
+      color: #000;
+    }
+    &-descr {
+      font-size: 18px;
+      color: #888;
+    }
+  }
+
+  // Controls:
+  &-ctrl {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 60px;
+    background: rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.2s ease 0s;
+    cursor: pointer;
+
+    // Icon:
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: block;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      transform: translate(-50%, -50%);
+    }
+
+    // States:
+    #{$slider}:hover & {
+      opacity: 1;
+    }
+
+    // Types:
+    &.ctrl-prev { left: 0;
+
+      // Icon:
+      &:before { border-right: 10px solid #000; }
+    }
+    &.ctrl-next { right: 0;
+
+      // Icon:
+      &:before { border-left: 10px solid #000; }
+    }
+  }
+
+  // Pager:
+  &-thumbs {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transform: translateX(-50%);
+
+    // Items:
+    &-item {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin: 0 2px;
+      box-sizing: border-box;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #ccc;
+      vertical-align: middle;
+      cursor: pointer;
+
+      // States:
+      &:hover {
+        background: #888;
+      }
+      &.active {
+        background: #000;
+      }
+    }
+  }
+}

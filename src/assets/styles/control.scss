@@ -1,0 +1,26 @@
+/* Control: */
+.control {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ff4040;
+  font-size: 21px;
+  line-height: 40px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+
+  // States:
+  &:hover {
+    background: darken(#ff4040, 15%);
+    text-decoration: none;
+  }
+  &:focus {
+    outline: 1px dashed #ff4040;
+    outline-offset: 2px;
+  }
+
+  // Types:
+  &.ctrl-add {}
+}

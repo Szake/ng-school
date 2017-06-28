@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Common tags:
+@import './assets/styles/common.scss';
+
+
+// Layout markup:
+@import './assets/styles/layout.scss';
+@import './assets/styles/header.scss';
+@import './assets/styles/content.scss';
+@import './assets/styles/section.scss';
+@import './assets/styles/footer.scss';
+
+
+// Common markup:
+@import './assets/styles/loader.scss';
+@import './assets/styles/breadcrumbs.scss';
+@import './assets/styles/details.scss';
+@import './assets/styles/link.scss';
+@import './assets/styles/table.scss';
+@import './assets/styles/form.scss';
+@import './assets/styles/button.scss';
+@import './assets/styles/control.scss';

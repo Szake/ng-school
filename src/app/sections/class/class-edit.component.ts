@@ -18,7 +18,7 @@ import { titleIn, contentIn } from '../../animations/content';
 
 @Component({
   templateUrl: './class-form.component.html',
-  styleUrls: [ './class.component.css' ],
+  styleUrls: [ './class.component.scss' ],
   animations: [ titleIn, contentIn ]
 })
 

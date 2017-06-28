@@ -1,0 +1,25 @@
+/* Link: */
+.link {
+  color: #ff4040;
+  white-space: nowrap;
+
+  // Types:
+  &-back {
+    position: relative;
+    padding-left: 10px;
+    font-size: 0.85em;
+
+    // Arrow (left):
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      display: block;
+      border-top: 4px solid transparent;
+      border-right: 4px solid;
+      border-bottom: 4px solid transparent;
+      transform: translateY(-50%);
+    }
+  }
+}

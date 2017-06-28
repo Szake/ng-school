@@ -1,19 +1,19 @@
 <h2 class="content-title" [@titleIn]="'in'">{{title}}</h2>
 
 <div class="content-controls" [@controlsIn]="'in'">
-  <a class="control-add" routerLink="/student/create" title="Create student">+</a>
+  <a class="control" routerLink="/student/create" title="Create student">+</a>
 </div>
 
 <div class="content-text" [@contentIn]="'in'">
-  <app-search-bar [length]="students.length" (query)="searchBy($event)"></app-search-bar>
+  <app-search-bar class="section" [length]="students.length" (query)="searchBy($event)"></app-search-bar>
 
-  <table class="table">
+  <table class="table section">
     <tr>
       <th>#</th>
-      <th class="control" [ngClass]="{'active': sort.data.property === 'firstName'}" (click)="sortBy('firstName')">First name</th>
-      <th class="control" [ngClass]="{'active': sort.data.property === 'lastName'}" (click)="sortBy('lastName')">Last name</th>
-      <th class="control" [ngClass]="{'active': sort.data.property === 'birthday'}" (click)="sortBy('birthday')">Birthday</th>
-      <th class="control" [ngClass]="{'active': sort.data.property === 'classId'}" (click)="sortBy('classId')">Class</th>
+      <th class="table-control" [ngClass]="{'active': sort.data.property === 'firstName'}" (click)="sortBy('firstName')">First name</th>
+      <th class="table-control" [ngClass]="{'active': sort.data.property === 'lastName'}" (click)="sortBy('lastName')">Last name</th>
+      <th class="table-control" [ngClass]="{'active': sort.data.property === 'birthday'}" (click)="sortBy('birthday')">Birthday</th>
+      <th class="table-control" [ngClass]="{'active': sort.data.property === 'classId'}" (click)="sortBy('classId')">Class</th>
       <th>Controls</th>
     </tr>
     <tr *ngFor="let student of (pages && pages[pager.current - 1]); let i = index">
@@ -32,5 +32,5 @@
     </tr>
   </table>
 
-  <app-pagination [pages]="pages" [active]="pager.current" (toPage)="goToPage($event)"></app-pagination>
+  <app-pagination class="section" [pages]="pages" [active]="pager.current" (toPage)="goToPage($event)"></app-pagination>
 </div>

@@ -15,7 +15,7 @@ import { titleIn, breadcrumbsIn, contentIn } from '../../animations/content';
 
 @Component({
   templateUrl: './class.component.html',
-  styleUrls: [ './class.component.css' ],
+  styleUrls: [ './class.component.scss' ],
   animations: [ titleIn, breadcrumbsIn, contentIn ]
 })
 

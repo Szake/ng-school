@@ -6,35 +6,41 @@
   background: #fff;
   font-size: 12px;
   color: #222;
-}
-.table th {
-  padding: 5px 10px;
-  background: #222;
-  font-weight: 400;
-  color: #fff;
-  text-align: left;
-  vertical-align: top;
-}
-.table th.control {
-  cursor: pointer;
-}
-.table th.control:hover:not(.active) {
-  background: #444;
-}
-.table th.active {
-  background-image: linear-gradient(to bottom, #ff4040 0, #ff4040 50%, #ee3030 51%, #ee3030 100%);
-  background-color: #ff4040;
-  color: #fff;
-  cursor: default;
-  pointer-events: none;
-}
-.table td {
-  padding: 5px 10px;
-  border: 1px solid #e6e6e6;
-  font-weight: 400;
-  text-align: left;
-  vertical-align: top;
-}
-.table a {
-  color: #ff4040;
+
+  th {
+    padding: 5px 10px;
+    background: #222;
+    font-weight: 400;
+    color: #fff;
+    text-align: left;
+    vertical-align: top;
+  }
+  td {
+    padding: 5px 10px;
+    border: 1px solid #e6e6e6;
+    font-weight: 400;
+    text-align: left;
+    vertical-align: top;
+  }
+  a {
+    color: #ff4040;
+  }
+
+
+  // Other:
+  &-control { // TH
+    cursor: pointer;
+
+    // States:
+    &:hover {
+      background-color: #444;
+    }
+    &.active {
+      background-image: linear-gradient(to bottom, #ff4040 0, #ff4040 50%, darken(#ff4040, 15%) 51%, darken(#ff4040, 15%) 100%);
+      background-color: #ff4040;
+      color: #fff;
+      cursor: default;
+      pointer-events: none;
+    }
+  }
 }

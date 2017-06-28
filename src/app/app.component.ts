@@ -7,7 +7,7 @@ import { headerIn, footerIn } from './animations/content';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   animations: [ headerIn, footerIn ]
 })
 export class AppComponent implements OnInit {

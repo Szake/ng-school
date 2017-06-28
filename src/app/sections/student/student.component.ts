@@ -13,7 +13,7 @@ import { titleIn, breadcrumbsIn, contentIn } from '../../animations/content';
 
 @Component({
   templateUrl: './student.component.html',
-  styleUrls: [ './student.component.css' ],
+  styleUrls: [ './student.component.scss' ],
   animations: [ titleIn, breadcrumbsIn, contentIn ]
 })
 

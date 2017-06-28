@@ -1,0 +1,26 @@
+/* Layout: */
+.layout {
+
+  // Nested:
+  &-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100vh;
+  }
+  &-header {
+    flex: 0 0 40px;
+    height: 40px;
+    background: #ff4040;
+    color: #fff;
+  }
+  &-content {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+  &-footer {
+    flex: 0 0 30px;
+    height: 30px;
+    background: #eee;
+  }
+}

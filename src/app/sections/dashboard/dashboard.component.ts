@@ -4,7 +4,7 @@ import { titleIn, contentIn } from '../../animations/content';
 
 @Component({
   templateUrl: 'dashboard.component.html',
-  styleUrls: [ './dashboard.component.css' ],
+  styleUrls: [ './dashboard.component.scss' ],
   animations: [ titleIn, contentIn ]
 })
 
